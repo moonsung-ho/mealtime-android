@@ -17,6 +17,8 @@ object Destinations {
     const val HOME_ROUTE = "home"
     const val TIMETABLE_ROUTE = "timetable"
     const val SETTING_ROUTE = "setting"
+    const val SETTING_SCHOOL = "setting_school"
+    const val SETTING_GRADE_CLASS = "setting_grade_class"
 }
 
 class NavigationActions(navController: NavHostController) {
@@ -46,6 +48,24 @@ class NavigationActions(navController: NavHostController) {
     }
     val navigateToSetting: () -> Unit = {
         navController.navigate(Destinations.SETTING_ROUTE) {
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+    val navigateToSettingSchool: () -> Unit = {
+        navController.navigate(Destinations.SETTING_SCHOOL) {
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+    val navigateToSettingGradeClass: () -> Unit = {
+        navController.navigate(Destinations.SETTING_GRADE_CLASS) {
             popUpTo(navController.graph.findStartDestination().id) {
                 saveState = true
             }

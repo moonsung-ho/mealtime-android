@@ -3,7 +3,7 @@ package com.sungho0205.geupsik.service
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL = "https://mealtimeapi.sungho-moon.workers.dev/"
+private const val BASE_URL = "https://open.neis.go.kr/"
 
 class APIClient {
     fun getClient(): Retrofit {

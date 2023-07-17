@@ -10,10 +10,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.ui.theme.MealtimeTheme
 
 @Composable
-fun MealtimeApp() {
+fun MealtimeApp(settingsViewModel: SettingsViewModel) {
     MealtimeTheme {
         val navController = rememberNavController()
         val navigationActions = remember(navController) {
@@ -24,12 +25,17 @@ fun MealtimeApp() {
         val currentRoute = navBackStackEntry?.destination?.route
 
         Scaffold(bottomBar = {
-            BottomNavigation(
-                currentRoute = currentRoute,
-                navigateToHome = navigationActions.navigateToHome,
-                navigateToTimetable = navigationActions.navigateToTimetable,
-                navigateToSetting = navigationActions.navigateToSetting
-            )
+            if (currentRoute == Destinations.HOME_ROUTE
+                || currentRoute == Destinations.TIMETABLE_ROUTE
+                || currentRoute == Destinations.SETTING_ROUTE
+            ) {
+                BottomNavigation(
+                    currentRoute = currentRoute,
+                    navigateToHome = navigationActions.navigateToHome,
+                    navigateToTimetable = navigationActions.navigateToTimetable,
+                    navigateToSetting = navigationActions.navigateToSetting
+                )
+            }
         }) {
             Surface(
                 modifier = Modifier
@@ -38,7 +44,9 @@ fun MealtimeApp() {
                 color = MaterialTheme.colors.background
             ) {
                 MealtimeNavGraph(
-                    navController = navController
+                    navController = navController,
+                    navigationActions = navigationActions,
+                    settingsViewModel = settingsViewModel
                 )
             }
         }
