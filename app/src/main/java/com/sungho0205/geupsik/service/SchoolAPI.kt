@@ -31,17 +31,22 @@ fun searchSchools(query: String, region: String?, result: SnapshotStateList<Scho
         override fun onResponse(
             call: Call<SchoolInfoList>, response: Response<SchoolInfoList>
         ) {
-            val rawHead = response.body()?.schoolInfo?.get(0)
-            val head = gson.fromJson(gson.toJson(rawHead), Head::class.java).head
-            val count = gson.fromJson(gson.toJson(head[0]), Count::class.java).list_total_count
-            val res = gson.fromJson(gson.toJson(head[1]), ResultInfo::class.java).RESULT
-            val message = res?.MESSAGE
-            val rawRows = response.body()?.schoolInfo?.get(1)
-            val schools = gson.fromJson(gson.toJson(rawRows), SchoolInfoRow::class.java).row
+            try {
+                val rawHead = response.body()?.schoolInfo?.get(0)
+                val head = gson.fromJson(gson.toJson(rawHead), Head::class.java).head
+                val count = gson.fromJson(gson.toJson(head[0]), Count::class.java).list_total_count
+                val res = gson.fromJson(gson.toJson(head[1]), ResultInfo::class.java).RESULT
+                val message = res?.MESSAGE
+                val rawRows = response.body()?.schoolInfo?.get(1)
+                val schools = gson.fromJson(gson.toJson(rawRows), SchoolInfoRow::class.java).row
 
-            Log.d(TAG, "성공 : $count $message")
-            result.clear()
-            result.addAll(schools)
+                Log.d(TAG, "성공 : $count $message")
+                result.clear()
+                result.addAll(schools)
+            } catch (t: Throwable) {
+                Log.d(TAG, "실패 : $t")
+                result.clear()
+            }
         }
 
         override fun onFailure(call: Call<SchoolInfoList>, t: Throwable) {

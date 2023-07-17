@@ -33,21 +33,25 @@ fun HomeScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = PaddingValues(horizontal = 4.dp, vertical = 10.dp),
-            ) {
-                items(meals) {
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        elevation = 10.dp,
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween,
+            if (meals.size == 0) {
+                Text("식단표를 찾을 수가 없어요.")
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 10.dp),
+                ) {
+                    items(meals) {
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            elevation = 10.dp,
                         ) {
-                            Text("${it.DDISH_NM}")
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                            ) {
+                                Text("${it.DDISH_NM}")
+                            }
                         }
                     }
                 }

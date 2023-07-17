@@ -42,17 +42,23 @@ fun queryTimetable(
             call: Call<ElsTimetableList>,
             response: Response<ElsTimetableList>
         ) {
-            val rawHead = response.body()?.elsTimetable?.get(0)
-            val head = gson.fromJson(gson.toJson(rawHead), Head::class.java).head
-            val count = gson.fromJson(gson.toJson(head[0]), Count::class.java).list_total_count
-            val res = gson.fromJson(gson.toJson(head[1]), ResultInfo::class.java).RESULT
-            val message = res?.MESSAGE
-            val rawRows = response.body()?.elsTimetable?.get(1)
-            val timetables = gson.fromJson(gson.toJson(rawRows), ElsTimetableRow::class.java).row
+            try {
+                val rawHead = response.body()?.elsTimetable?.get(0)
+                val head = gson.fromJson(gson.toJson(rawHead), Head::class.java).head
+                val count = gson.fromJson(gson.toJson(head[0]), Count::class.java).list_total_count
+                val res = gson.fromJson(gson.toJson(head[1]), ResultInfo::class.java).RESULT
+                val message = res?.MESSAGE
+                val rawRows = response.body()?.elsTimetable?.get(1)
+                val timetables =
+                    gson.fromJson(gson.toJson(rawRows), ElsTimetableRow::class.java).row
 
-            Log.d(TAG, "성공 : $count $message")
-            result.clear()
-            result.addAll(timetables)
+                Log.d(TAG, "성공 : $count $message")
+                result.clear()
+                result.addAll(timetables)
+            } catch (t: Throwable) {
+                Log.d(TAG, "실패 : $t")
+                result.clear()
+            }
         }
 
         override fun onFailure(call: Call<ElsTimetableList>, t: Throwable) {

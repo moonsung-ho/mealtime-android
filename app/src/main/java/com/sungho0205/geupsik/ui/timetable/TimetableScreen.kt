@@ -35,21 +35,25 @@ fun TimetableScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = PaddingValues(horizontal = 4.dp, vertical = 10.dp),
-            ) {
-                items(timetables) {
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        elevation = 10.dp,
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween,
+            if (timetables.size == 0) {
+                Text("시간표를 찾을 수 없어요.")
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 10.dp),
+                ) {
+                    items(timetables) {
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            elevation = 10.dp,
                         ) {
-                            Text("${it.ITRT_CNTNT}")
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                            ) {
+                                Text("${it.ITRT_CNTNT}")
+                            }
                         }
                     }
                 }

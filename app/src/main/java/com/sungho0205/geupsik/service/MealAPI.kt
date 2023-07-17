@@ -28,24 +28,35 @@ private val api: MealAPI = APIClient().getClient().create(MealAPI::class.java)
 private val gson = Gson()
 private const val TAG: String = "MEAL API CALL"
 
-fun queryMeal(atptOfcdcScCode: String, sdSchulCode: String, mlsvYmd: String, result: SnapshotStateList<MealServiceDiet>) {
+fun queryMeal(
+    atptOfcdcScCode: String,
+    sdSchulCode: String,
+    mlsvYmd: String,
+    result: SnapshotStateList<MealServiceDiet>
+) {
     val call = api.getMeal(atptOfcdcScCode, sdSchulCode, mlsvYmd)
     call.enqueue(object : Callback<MealServiceDietInfoList> {
         override fun onResponse(
             call: Call<MealServiceDietInfoList>,
             response: Response<MealServiceDietInfoList>
         ) {
-            val rawHead = response.body()?.mealServiceDietInfo?.get(0)
-            val head = gson.fromJson(gson.toJson(rawHead), Head::class.java).head
-            val count = gson.fromJson(gson.toJson(head[0]), Count::class.java).list_total_count
-            val res = gson.fromJson(gson.toJson(head[1]), ResultInfo::class.java).RESULT
-            val message = res?.MESSAGE
-            val rawRows = response.body()?.mealServiceDietInfo?.get(1)
-            val meals = gson.fromJson(gson.toJson(rawRows), MealServiceDietInfoRow::class.java).row
+            try {
+                val rawHead = response.body()?.mealServiceDietInfo?.get(0)
+                val head = gson.fromJson(gson.toJson(rawHead), Head::class.java).head
+                val count = gson.fromJson(gson.toJson(head[0]), Count::class.java).list_total_count
+                val res = gson.fromJson(gson.toJson(head[1]), ResultInfo::class.java).RESULT
+                val message = res?.MESSAGE
+                val rawRows = response.body()?.mealServiceDietInfo?.get(1)
+                val meals =
+                    gson.fromJson(gson.toJson(rawRows), MealServiceDietInfoRow::class.java).row
 
-            Log.d(TAG, "성공 : $count $message")
-            result.clear()
-            result.addAll(meals)
+                Log.d(TAG, "성공 : $count $message")
+                result.clear()
+                result.addAll(meals)
+            } catch (t: Throwable) {
+                Log.d(TAG, "실패 : $t")
+                result.clear()
+            }
         }
 
         override fun onFailure(call: Call<MealServiceDietInfoList>, t: Throwable) {
