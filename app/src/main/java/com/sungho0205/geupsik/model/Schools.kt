@@ -1,4 +1,4 @@
-package com.sungho0205.geupsik.data
+package com.sungho0205.geupsik.model
 
 data class SchoolInfoList(
     val schoolInfo: List<Map<String, Any>> // schoolInfo[0]: HeadList, schoolInfo[1]: RowList

@@ -1,4 +1,4 @@
-package com.sungho0205.geupsik.data
+package com.sungho0205.geupsik.model
 
 enum class Regions(val label: String, val value: String) {
     All("전체", ""),

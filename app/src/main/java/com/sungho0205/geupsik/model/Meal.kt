@@ -1,4 +1,4 @@
-package com.sungho0205.geupsik.data
+package com.sungho0205.geupsik.model
 
 data class MealServiceDietInfoList(
     val mealServiceDietInfo: List<Map<String, Any>>

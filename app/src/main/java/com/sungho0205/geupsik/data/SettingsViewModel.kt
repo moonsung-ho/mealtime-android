@@ -5,6 +5,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sungho0205.geupsik.Settings
+import com.sungho0205.geupsik.model.ElsTimetable
+import com.sungho0205.geupsik.model.GradeClass
+import com.sungho0205.geupsik.model.MealServiceDiet
 import com.sungho0205.geupsik.service.queryMeal
 import com.sungho0205.geupsik.service.queryTimetable
 import com.sungho0205.geupsik.service.searchGradeClasses

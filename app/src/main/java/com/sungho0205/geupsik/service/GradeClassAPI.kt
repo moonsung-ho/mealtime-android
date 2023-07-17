@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.google.gson.Gson
 import com.sungho0205.geupsik.data.*
+import com.sungho0205.geupsik.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

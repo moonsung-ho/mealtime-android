@@ -1,6 +1,5 @@
 package com.sungho0205.geupsik.ui.setting
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.data.*
+import com.sungho0205.geupsik.model.Regions
+import com.sungho0205.geupsik.model.School
 import com.sungho0205.geupsik.service.searchSchools
 import com.sungho0205.geupsik.ui.NavigationActions
 import kotlinx.coroutines.launch

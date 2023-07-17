@@ -1,4 +1,4 @@
-package com.sungho0205.geupsik.data
+package com.sungho0205.geupsik.model
 
 data class Head(
     val head: List<Map<String, Any>> // head[0]: Count, head[1]: ResultInfo
