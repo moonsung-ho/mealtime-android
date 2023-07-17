@@ -4,10 +4,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.data.*
@@ -26,17 +27,18 @@ fun SettingGradeClassScreen(
         settingsViewModel.getGradeClasses()
     })
 
-    Box(
-        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
-    ) {
+    Scaffold(topBar = {
+        TopAppBar(title = { Text("학년 반 설정") }, navigationIcon = {
+            IconButton(onClick = { navigationActions.navigateToSetting() }) {
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "뒤로가기")
+            }
+        })
+    }) {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(onClick = { navigationActions.navigateToSetting() }) {
-                Text("뒤로가기")
-            }
             Spacer(modifier = Modifier.height(8.dp))
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),

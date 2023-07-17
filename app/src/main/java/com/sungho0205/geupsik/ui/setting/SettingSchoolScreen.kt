@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
@@ -60,9 +61,13 @@ fun SettingSchoolScreen(
             )
         }, sheetState = sheetState
     ) {
-        Box(
-            modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
-        ) {
+        Scaffold(topBar = {
+            TopAppBar(title = { Text("학교 설정") }, navigationIcon = {
+                IconButton(onClick = { navigationActions.navigateToSetting() }) {
+                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "뒤로가기")
+                }
+            })
+        }) {
             Column(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.Center,
