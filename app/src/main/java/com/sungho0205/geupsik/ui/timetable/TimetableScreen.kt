@@ -3,8 +3,9 @@ package com.sungho0205.geupsik.ui.timetable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -46,7 +47,7 @@ fun TimetableScreen(
                     items(timetables) {
                         Card(
                             modifier = Modifier.fillMaxWidth(),
-                            elevation = 10.dp,
+                            elevation = CardDefaults.cardElevation(2.dp),
                         ) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,

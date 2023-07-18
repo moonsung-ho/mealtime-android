@@ -3,9 +3,7 @@ package com.sungho0205.geupsik.ui.home
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +24,7 @@ fun HomeScreen(
         settingsViewModel.getMeals(date = "20230405")
     })
 
-    Scaffold() {
+    Scaffold() { innerPadding->
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.Center,
@@ -38,18 +36,18 @@ fun HomeScreen(
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
-                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 10.dp),
+                    contentPadding = innerPadding,
                 ) {
                     items(meals) {
                         Card(
                             modifier = Modifier.fillMaxWidth(),
-                            elevation = 10.dp,
+                            elevation = CardDefaults.cardElevation(2.dp),
                         ) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
-                                Text("${it.DDISH_NM}")
+                                Text(it.DDISH_NM)
                             }
                         }
                     }

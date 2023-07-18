@@ -1,13 +1,10 @@
 package com.sungho0205.geupsik.ui
 
-import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
@@ -82,11 +79,11 @@ fun BottomNavigation(
     navigateToTimetable: () -> Unit,
     navigateToSetting: () -> Unit
 ) {
-    androidx.compose.material.BottomNavigation(
-        backgroundColor = Color.White,
+    androidx.compose.material3.NavigationBar(
+        containerColor = Color.White,
         contentColor = Color(0xFF3414E)
     ) {
-        BottomNavigationItem(
+        NavigationBarItem(
             selected = currentRoute == Destinations.HOME_ROUTE,
             onClick = { navigateToHome() },
             icon = {
@@ -95,12 +92,16 @@ fun BottomNavigation(
                     contentDescription = stringResource(id = R.string.bnb_home)
                 )
             },
-            selectedContentColor = MaterialTheme.colors.primary,
-            unselectedContentColor = Color.Gray,
-            label = { Text(stringResource(id = R.string.bnb_home), fontSize = 9.sp) },
+            colors=NavigationBarItemDefaults.colors(
+                selectedIconColor = MaterialTheme.colorScheme.primary,
+                unselectedIconColor = Color.Gray,
+                selectedTextColor = MaterialTheme.colorScheme.primary,
+                unselectedTextColor = Color.Gray
+            ),
+            label = { Text(stringResource(id = R.string.bnb_home), fontSize = 10.sp) },
             alwaysShowLabel = true
         )
-        BottomNavigationItem(
+        NavigationBarItem(
             selected = currentRoute == Destinations.TIMETABLE_ROUTE,
             onClick = { navigateToTimetable() },
             icon = {
@@ -109,12 +110,16 @@ fun BottomNavigation(
                     contentDescription = stringResource(id = R.string.bnb_timetable)
                 )
             },
-            selectedContentColor = MaterialTheme.colors.primary,
-            unselectedContentColor = Color.Gray,
-            label = { Text(stringResource(id = R.string.bnb_timetable), fontSize = 9.sp) },
+            colors=NavigationBarItemDefaults.colors(
+                selectedIconColor = MaterialTheme.colorScheme.primary,
+                unselectedIconColor = Color.Gray,
+                selectedTextColor = MaterialTheme.colorScheme.primary,
+                unselectedTextColor = Color.Gray
+            ),
+            label = { Text(stringResource(id = R.string.bnb_timetable), fontSize = 10.sp) },
             alwaysShowLabel = true,
         )
-        BottomNavigationItem(
+        NavigationBarItem(
             selected = currentRoute == Destinations.SETTING_ROUTE,
             onClick = { navigateToSetting() },
             icon = {
@@ -123,9 +128,13 @@ fun BottomNavigation(
                     contentDescription = stringResource(id = R.string.bnb_setting)
                 )
             },
-            selectedContentColor = MaterialTheme.colors.primary,
-            unselectedContentColor = Color.Gray,
-            label = { Text(stringResource(id = R.string.bnb_setting), fontSize = 9.sp) },
+            colors=NavigationBarItemDefaults.colors(
+                selectedIconColor = MaterialTheme.colorScheme.primary,
+                unselectedIconColor = Color.Gray,
+                selectedTextColor = MaterialTheme.colorScheme.primary,
+                unselectedTextColor = Color.Gray
+            ),
+            label = { Text(stringResource(id = R.string.bnb_setting), fontSize = 10.sp) },
             alwaysShowLabel = true
         )
     }

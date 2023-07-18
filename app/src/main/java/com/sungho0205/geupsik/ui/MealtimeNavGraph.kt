@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.ui.home.HomeScreen
 import com.sungho0205.geupsik.ui.setting.SettingGradeClassScreen
@@ -19,7 +20,7 @@ fun MealtimeNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     navigationActions: NavigationActions,
-    startDestination: String = Destinations.HOME_ROUTE,
+    startDestination: String = Destinations.SETTING_SCHOOL,
     settingsViewModel: SettingsViewModel
 ) {
     NavHost(
