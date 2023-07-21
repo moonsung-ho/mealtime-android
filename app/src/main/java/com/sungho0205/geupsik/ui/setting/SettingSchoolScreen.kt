@@ -3,7 +3,6 @@ package com.sungho0205.geupsik.ui.setting
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,7 +13,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -27,7 +26,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sungho0205.geupsik.Settings
-import com.sungho0205.geupsik.data.*
+import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.model.Regions
 import com.sungho0205.geupsik.model.School
 import com.sungho0205.geupsik.service.searchSchools
@@ -143,19 +142,23 @@ fun SettingSchoolScreen(
             Spacer(modifier = Modifier.height(8.dp))
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 items(schools) {
-                    Card(modifier = Modifier.fillMaxWidth(), onClick = {
-                        settingsViewModel.updateSchool(
-                            atptOfcdcScCode = it.ATPT_OFCDC_SC_CODE,
-                            sdSchulCode = it.SD_SCHUL_CODE,
-                            schulNm = it.SCHUL_NM,
-                        )
-                    }) {
-                        Row() {
-                            Text(it.SCHUL_NM)
-                        }
+                    Column {
+                        ListItem(modifier = Modifier.clickable {
+                            settingsViewModel.updateSchool(
+                                atptOfcdcScCode = it.ATPT_OFCDC_SC_CODE,
+                                sdSchulCode = it.SD_SCHUL_CODE,
+                                schulNm = it.SCHUL_NM,
+                            )
+                            navigationActions.navigateToSettingGradeClass()
+                        }, headlineText = { Text(it.SCHUL_NM) }, trailingContent = {
+                            Icon(
+                                Icons.Filled.KeyboardArrowRight,
+                                contentDescription = "학년 반 설정",
+                            )
+                        })
+                        Divider()
                     }
                 }
             }

@@ -3,19 +3,18 @@ package com.sungho0205.geupsik.ui.timetable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.ui.NavigationActions
+import java.text.SimpleDateFormat
+import java.util.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimetableScreen(
     navigationActions: NavigationActions, settingsViewModel: SettingsViewModel
@@ -24,18 +23,62 @@ fun TimetableScreen(
         settingsViewModel.settingFlow.collectAsState(initial = Settings.getDefaultInstance()).value
     val timetables = settingsViewModel.timetables
 
-    LaunchedEffect(data.sdSchulCode, block = {
-        settingsViewModel.getTimetables(date = "20230406")
+    val datePickerState =
+        rememberDatePickerState(initialSelectedDateMillis = System.currentTimeMillis())
+    val isShowDatePicker = remember { mutableStateOf(false) }
+
+    val selectedDate = datePickerState.selectedDateMillis?.let {
+        SimpleDateFormat(
+            "yyyyMMdd", Locale.getDefault()
+        ).format(Date(it))
+    }
+
+    LaunchedEffect(key1 = data.sdSchulCode, key2 = selectedDate, block = {
+        if (selectedDate != null) {
+            settingsViewModel.getTimetables(date = selectedDate)
+        }
     })
 
-    Box(
-        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
-    ) {
+    val selectedDateInButton = datePickerState.selectedDateMillis?.let {
+        SimpleDateFormat(
+            "yyyy년 M월 dd일", Locale.getDefault()
+        ).format(Date(it))
+    }
+
+    Scaffold() { innerPadding ->
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            OutlinedButton(onClick = { isShowDatePicker.value = true }) {
+                if (selectedDateInButton != null) {
+                    Text(selectedDateInButton)
+                }
+            }
+            if (isShowDatePicker.value) {
+                DatePickerDialog(onDismissRequest = { isShowDatePicker.value = false },
+                    confirmButton = {
+                        TextButton(onClick = { isShowDatePicker.value = false }) {
+                            Text("선택")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { isShowDatePicker.value = false }) {
+                            Text("취소")
+                        }
+                    }) {
+
+                    DatePicker(
+                        state = datePickerState,
+                        showModeToggle = false,
+                        modifier = Modifier.width(400.dp)
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(10.dp))
             if (timetables.size == 0) {
                 Text("시간표를 찾을 수 없어요.")
             } else {

@@ -7,6 +7,7 @@ import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
 import com.google.protobuf.InvalidProtocolBufferException
 import com.sungho0205.geupsik.Settings
+import com.sungho0205.geupsik.model.Alergy
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -58,6 +59,14 @@ class SettingsRepository(
     ) {
         settingsDataStore.updateData { currentSettings ->
             currentSettings.toBuilder().setGrade(grade_).setClass_(class_).build()
+        }
+    }
+
+    suspend fun updateAlergies(
+        alergyIds: Iterable<com.sungho0205.geupsik.Alergy>
+    ) {
+        settingsDataStore.updateData { currentSettings ->
+            currentSettings.toBuilder().clearAlergies().addAllAlergies(alergyIds).build()
         }
     }
 }

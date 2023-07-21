@@ -83,4 +83,10 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
             )
         }
     }
+
+    fun updateAlergies(alergyIds: Iterable<com.sungho0205.geupsik.Alergy>) {
+        viewModelScope.launch {
+            settingsRepository.updateAlergies(alergyIds)
+        }
+    }
 }

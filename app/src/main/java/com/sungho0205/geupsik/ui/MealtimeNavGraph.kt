@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.ui.home.HomeScreen
+import com.sungho0205.geupsik.ui.setting.SettingAlergyScreen
 import com.sungho0205.geupsik.ui.setting.SettingGradeClassScreen
 import com.sungho0205.geupsik.ui.setting.SettingSchoolScreen
 import com.sungho0205.geupsik.ui.setting.SettingScreen
@@ -20,7 +21,7 @@ fun MealtimeNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     navigationActions: NavigationActions,
-    startDestination: String = Destinations.SETTING_SCHOOL,
+    startDestination: String = Destinations.HOME_ROUTE,
     settingsViewModel: SettingsViewModel
 ) {
     NavHost(
@@ -64,6 +65,12 @@ fun MealtimeNavGraph(
             route = Destinations.SETTING_GRADE_CLASS
         ) {
             SettingGradeClassScreen(
+                navigationActions = navigationActions,
+                settingsViewModel = settingsViewModel
+            )
+        }
+        composable(route = Destinations.SETTING_ALERGY) {
+            SettingAlergyScreen(
                 navigationActions = navigationActions,
                 settingsViewModel = settingsViewModel
             )

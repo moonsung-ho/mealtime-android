@@ -3,10 +3,15 @@ syntax = "proto3";
 option java_package = "com.sungho0205.geupsik";
 option java_multiple_files = true;
 
+message Alergy {
+    string id = 1;
+}
+
 message Settings {
     string atpt_ofcdc_sc_code = 1;
     string sd_schul_code = 2;
     string schul_nm = 3;
     string grade = 4;
     string class = 5;
+    repeated Alergy alergies = 6;
 }

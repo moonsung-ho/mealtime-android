@@ -34,11 +34,15 @@ fun SettingScreen(
             } else {
                 Text("${data.grade}학년 ${data.class_}반")
             }
+            Text(data.alergiesList.toString())
             Button(onClick = { navigationActions.navigateToSettingSchool() }) {
                 Text(text = "학교 설정")
             }
             Button(onClick = { navigationActions.navigateToSettingGradeClass() }) {
                 Text(text = "학년 반 설정")
+            }
+            Button(onClick = { navigationActions.navigateToSettingAlergy() }) {
+                Text(text = "알러지 설정")
             }
         }
     }

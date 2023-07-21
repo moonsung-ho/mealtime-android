@@ -16,6 +16,7 @@ object Destinations {
     const val SETTING_ROUTE = "setting"
     const val SETTING_SCHOOL = "setting_school"
     const val SETTING_GRADE_CLASS = "setting_grade_class"
+    const val SETTING_ALERGY = "setting_alergy"
 }
 
 class NavigationActions(navController: NavHostController) {
@@ -63,6 +64,15 @@ class NavigationActions(navController: NavHostController) {
     }
     val navigateToSettingGradeClass: () -> Unit = {
         navController.navigate(Destinations.SETTING_GRADE_CLASS) {
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+    val navigateToSettingAlergy: () -> Unit = {
+        navController.navigate(Destinations.SETTING_ALERGY) {
             popUpTo(navController.graph.findStartDestination().id) {
                 saveState = true
             }
