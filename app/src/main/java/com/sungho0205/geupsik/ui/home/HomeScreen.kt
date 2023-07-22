@@ -151,7 +151,7 @@ fun HomeScreen(
                                         fontWeight = FontWeight.Bold,
                                         color = Yellow700
                                     )
-                                    Text("(${it.CAL_INFO})")
+                                    Text("(${it.CAL_INFO})", color = Yellow700)
                                 }
                                 Spacer(modifier = Modifier.height(10.dp))
 
