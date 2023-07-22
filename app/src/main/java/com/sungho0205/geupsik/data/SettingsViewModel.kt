@@ -1,6 +1,8 @@
 package com.sungho0205.geupsik.data
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,12 +15,14 @@ import com.sungho0205.geupsik.service.queryTimetable
 import com.sungho0205.geupsik.service.searchGradeClasses
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class SettingsViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
     val settingFlow: Flow<Settings> = settingsRepository.settingsFlow
     val gradeClasses: SnapshotStateList<GradeClass> = mutableStateListOf()
     val meals: SnapshotStateList<MealServiceDiet> = mutableStateListOf()
     val timetables: SnapshotStateList<ElsTimetable> = mutableStateListOf()
+    val selectedDate: MutableState<LocalDate> = mutableStateOf(LocalDate.now())
 
     fun getGradeClasses() {
         viewModelScope.launch {

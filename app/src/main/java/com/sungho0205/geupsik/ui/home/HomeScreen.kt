@@ -1,29 +1,35 @@
 package com.sungho0205.geupsik.ui.home
 
-import android.annotation.SuppressLint
-import android.util.Log
+import android.app.DatePickerDialog
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.unit.sp
 import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.model.EAlergy
 import com.sungho0205.geupsik.ui.NavigationActions
-import java.text.SimpleDateFormat
-import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
-import java.util.logging.SimpleFormatter
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalLayoutApi::class)
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(
     navigationActions: NavigationActions, settingsViewModel: SettingsViewModel
@@ -31,82 +37,96 @@ fun HomeScreen(
     val data: Settings =
         settingsViewModel.settingFlow.collectAsState(initial = Settings.getDefaultInstance()).value
     val meals = settingsViewModel.meals
-    val datePickerState =
-        rememberDatePickerState(initialSelectedDateMillis = System.currentTimeMillis())
-    val isShowDatePicker = remember { mutableStateOf(false) }
+    val dateState = settingsViewModel.selectedDate
 
-    val selectedDate = datePickerState.selectedDateMillis?.let {
-        SimpleDateFormat(
-            "yyyyMMdd", Locale.getDefault()
-        ).format(Date(it))
-    }
+    val calendar = Calendar.getInstance()
+    val context = LocalContext.current
 
-    LaunchedEffect(key1 = data.sdSchulCode, key2 = selectedDate, block = {
-        if (selectedDate != null) {
-            settingsViewModel.getMeals(date = selectedDate)
-        }
+    LaunchedEffect(key1 = data.sdSchulCode, key2 = dateState.value, block = {
+        val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
+        settingsViewModel.getMeals(date = dateState.value.format(formatter))
     })
 
-    val selectedDateInButton = datePickerState.selectedDateMillis?.let {
-        SimpleDateFormat(
-            "yyyy년 M월 dd일", Locale.getDefault()
-        ).format(Date(it))
-    }
+    val datePicker = DatePickerDialog(
+        context,
+        { _, year, month, dayOfMonth ->
+            dateState.value = LocalDate.of(year, month + 1, dayOfMonth)
+        },
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)
+    )
 
     Scaffold() { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(innerPadding),
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            OutlinedButton(onClick = { isShowDatePicker.value = true }) {
-                if (selectedDateInButton != null) {
-                    Text(selectedDateInButton)
+            Spacer(modifier = Modifier.height(12.dp))
+            Row() {
+                Button(onClick = {
+                    dateState.value = dateState.value.minusDays(1)
+                }) {
+                    Icon(Icons.Filled.KeyboardArrowLeft, "어제")
                 }
-            }
-            if (isShowDatePicker.value) {
-                DatePickerDialog(onDismissRequest = { isShowDatePicker.value = false },
-                    confirmButton = {
-                        TextButton(onClick = { isShowDatePicker.value = false }) {
-                            Text("선택")
-                        }
-                    },
-                    dismissButton = {
-                        TextButton(onClick = { isShowDatePicker.value = false }) {
-                            Text("취소")
-                        }
-                    }) {
+                OutlinedButton(
+                    onClick = { datePicker.show() }, modifier = Modifier.padding(horizontal = 8.dp)
+                ) {
+                    val formatter = DateTimeFormatter.ofPattern("yyyy년 M월 dd일(E)")
+                    val selectedDate = dateState.value.format(formatter)
 
-                    DatePicker(
-                        state = datePickerState,
-                        showModeToggle = false,
-                        modifier = Modifier.width(400.dp)
-                    )
+                    Text(selectedDate)
+                }
+                Button(onClick = {
+                    dateState.value = dateState.value.plusDays(1)
+                }) {
+                    Icon(Icons.Filled.KeyboardArrowRight, "내일")
                 }
             }
-            Spacer(modifier = Modifier.height(10.dp))
-            if (meals.size == 0) {
-                Text("식단표를 찾을 수가 없어요.")
+            Spacer(modifier = Modifier.height(12.dp))
+            if (data.sdSchulCode.isNullOrBlank()) {
+                Column(
+                    modifier = Modifier.padding(innerPadding),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text("학교 설정을 하면 급식 메뉴를 볼 수 있어요.")
+                    TextButton(onClick = { navigationActions.navigateToSetting() }) {
+                        Text("설정하러 가기")
+                    }
+                }
+            } else if (meals.size == 0) {
+                Column(modifier = Modifier.padding(innerPadding)) {
+                    Text("식단표를 찾을 수가 없어요.")
+                }
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
                     contentPadding = innerPadding,
                 ) {
                     items(meals) {
                         Card(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp),
                             elevation = CardDefaults.cardElevation(2.dp),
+                            shape = RoundedCornerShape(16.dp),
                         ) {
                             Column(
-//                                verticalAlignment = Alignment.CenterVertically,
-//                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier.padding(12.dp)
                             ) {
-                                Text("종류: ${it.MMEAL_SC_NM}")
-                                Text("열량: ${it.CAL_INFO}")
-                                Spacer(modifier = Modifier.height(4.dp))
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text(
+                                        text = it.MMEAL_SC_NM,
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Text("(${it.CAL_INFO})")
+                                }
+                                Spacer(modifier = Modifier.height(10.dp))
 
                                 val menus = it.DDISH_NM.split("<br/>")
 
@@ -115,27 +135,81 @@ fun HomeScreen(
                                         Regex("[,.\\s]+") // Comma, period, or whitespace as delimiters.
                                     val parts = it.split(regex).filter { it.isNotEmpty() }
                                     val menu = parts[0]
-                                    val eAlergies = parts.drop(1).map {
-                                        EAlergy.values().find { eAlergy -> eAlergy.id == it }
+                                    val alergiesOfMenu = parts.drop(1).map {
+                                        EAlergy.values().find { eAlergy ->
+                                            eAlergy.id == it.replace("(", "").replace(")", "")
+                                        }
                                     }
 
-                                    val hasAlergy =
-                                        eAlergies.map { eAlergy -> eAlergy?.id }.intersect(
-                                            data.alergiesList.toSet().map { alergy -> alergy.id }
-                                                .toSet()
-                                        )
-                                            .isNotEmpty()
+                                    val hasAlergy = alergiesOfMenu.isNotEmpty()
 
-                                    Text(
-                                        menu, color = if (hasAlergy) {
-                                            Color.Red
-                                        } else {
-                                            Color.Black
+                                    val hasMyAlergy =
+                                        alergiesOfMenu.map { alergyOfMenu -> alergyOfMenu?.id }
+                                            .intersect(
+                                                data.alergiesList.toSet()
+                                                    .map { alergy -> alergy.id }.toSet()
+                                            ).isNotEmpty()
+
+                                    val showAlergies = remember { mutableStateOf(false) }
+
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(48.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.SpaceBetween
+                                    ) {
+                                        Text(
+                                            menu, color = if (hasMyAlergy) {
+                                                Color.Red
+                                            } else {
+                                                Color.Black
+                                            }
+                                        )
+                                        if (hasAlergy) {
+                                            AssistChip(onClick = {
+                                                showAlergies.value = !showAlergies.value
+                                            }, label = { Text("알러지") }, leadingIcon = {
+                                                Icon(
+                                                    Icons.Default.Warning, "알러지 경고"
+                                                )
+                                            })
                                         }
-                                    )
-                                    Column() {
-                                        eAlergies.map {
-                                            it?.label?.let { it1 -> Text(it1, color = Color.Gray) }
+                                    }
+                                    if (hasAlergy && showAlergies.value) {
+                                        FlowRow(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(vertical = 12.dp)
+                                                .padding(start = 12.dp)
+                                        ) {
+                                            alergiesOfMenu.map { alergyOfMenu ->
+                                                if (data.alergiesList.toSet().any { myAlergy ->
+                                                        myAlergy.id == alergyOfMenu?.id
+                                                    }) {
+                                                    alergyOfMenu?.label?.let { it ->
+                                                        Text(
+                                                            it,
+                                                            color = Color.Red,
+                                                            modifier = Modifier
+                                                                .padding(end = 8.dp)
+                                                                .wrapContentWidth(),
+                                                            fontWeight = FontWeight.SemiBold
+                                                        )
+                                                    }
+                                                } else {
+                                                    alergyOfMenu?.label?.let { it ->
+                                                        Text(
+                                                            it,
+                                                            color = Color.Gray,
+                                                            modifier = Modifier
+                                                                .padding(end = 8.dp)
+                                                                .wrapContentWidth()
+                                                        )
+                                                    }
+                                                }
+
+                                            }
                                         }
                                     }
                                 }

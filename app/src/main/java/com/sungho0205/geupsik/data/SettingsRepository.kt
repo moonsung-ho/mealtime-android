@@ -66,7 +66,9 @@ class SettingsRepository(
         alergyIds: Iterable<com.sungho0205.geupsik.Alergy>
     ) {
         settingsDataStore.updateData { currentSettings ->
-            currentSettings.toBuilder().clearAlergies().addAllAlergies(alergyIds).build()
+            currentSettings.toBuilder().clearAlergies().addAllAlergies(alergyIds.sortedBy {
+                it.id
+            }).build()
         }
     }
 }

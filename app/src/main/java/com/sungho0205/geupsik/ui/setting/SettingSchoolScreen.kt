@@ -62,9 +62,9 @@ fun SettingSchoolScreen(
         })
     }, contentWindowInsets = WindowInsets(left = 16.dp, right = 16.dp)) { innerPadding ->
         Column(
+            modifier = Modifier.padding(innerPadding),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(innerPadding)
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth()
@@ -137,11 +137,10 @@ fun SettingSchoolScreen(
                     )
                 }
             }
-            Text("학교 이름: ${data.schulNm}")
-            Text("검색 결과 : ${schools.size}")
-            Spacer(modifier = Modifier.height(8.dp))
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp).padding(top = 16.dp),
             ) {
                 items(schools) {
                     Column {

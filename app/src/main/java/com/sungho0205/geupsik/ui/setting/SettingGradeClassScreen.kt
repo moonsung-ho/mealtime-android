@@ -1,5 +1,6 @@
 package com.sungho0205.geupsik.ui.setting
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -35,15 +36,20 @@ fun SettingGradeClassScreen(
         })
     }) { innerPadding ->
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(innerPadding),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                "학년과 반을 설정하면 급식 메뉴와 시간표를 알려줄 수 있어요.",
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp)
+            )
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = innerPadding,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
             ) {
                 items(gradeClasses) {
                     ListItem(headlineText = {
@@ -55,10 +61,11 @@ fun SettingGradeClassScreen(
                                 selected = data.grade == it.GRADE && data.class_ == it.CLASS_NM,
                                 onClick = {
                                     settingsViewModel.updateClassGrade(it.GRADE, it.CLASS_NM)
-                                    navigationActions.navigateToSetting()
                                 })
                             Text("${it.GRADE}학년 ${it.CLASS_NM}반")
                         }
+                    }, modifier = Modifier.clickable {
+                        settingsViewModel.updateClassGrade(it.GRADE, it.CLASS_NM)
                     })
                     Divider()
                 }
