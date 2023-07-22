@@ -1,6 +1,7 @@
 package com.sungho0205.geupsik.service
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.google.gson.Gson
 import com.sungho0205.geupsik.data.*
@@ -10,6 +11,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
+import kotlin.concurrent.timer
 
 interface SchoolAPI {
     @GET("/hub/schoolInfo")
@@ -25,7 +27,19 @@ private val api: SchoolAPI = APIClient().getClient().create(SchoolAPI::class.jav
 private val gson = Gson()
 private const val TAG: String = " SCHOOL API CALL"
 
-fun searchSchools(query: String, region: String?, result: SnapshotStateList<School>): Unit {
+fun searchSchools(
+    query: String,
+    region: String?,
+    result: SnapshotStateList<School>,
+    progress: MutableState<Float>
+): Unit {
+    timer(period = 100, initialDelay = 0) {
+        progress.value += 0.3f
+        if (progress.value >= 1f) {
+            cancel()
+            progress.value = 0f
+        }
+    }
     val call = api.getSchools(query, region)
     call.enqueue(object : Callback<SchoolInfoList> {
         override fun onResponse(
@@ -43,14 +57,17 @@ fun searchSchools(query: String, region: String?, result: SnapshotStateList<Scho
                 Log.d(TAG, "성공 : $count $message")
                 result.clear()
                 result.addAll(schools)
+                progress.value = 0f
             } catch (t: Throwable) {
                 Log.d(TAG, "실패 : $t")
                 result.clear()
+                progress.value = 0f
             }
         }
 
         override fun onFailure(call: Call<SchoolInfoList>, t: Throwable) {
             Log.d(TAG, "실패 : $t")
+            progress.value = 0f
         }
     })
 }

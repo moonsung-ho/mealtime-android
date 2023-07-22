@@ -3,6 +3,7 @@ package com.sungho0205.geupsik.ui.home
 import android.app.DatePickerDialog
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,7 +46,10 @@ fun HomeScreen(
 
     LaunchedEffect(key1 = data.sdSchulCode, key2 = dateState.value, block = {
         val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
-        settingsViewModel.getMeals(date = dateState.value.format(formatter))
+        settingsViewModel.getMeals(
+            date = dateState.value.format(formatter),
+            progress = settingsViewModel.fetchProgress
+        )
     })
 
     val datePicker = DatePickerDialog(
@@ -57,7 +62,21 @@ fun HomeScreen(
         calendar.get(Calendar.DAY_OF_MONTH)
     )
 
+    val animatedProgress by animateFloatAsState(
+        targetValue = settingsViewModel.fetchProgress.value,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+    )
+
     Scaffold() { innerPadding ->
+        if (settingsViewModel.fetchProgress.value > 0.0f) {
+            LinearProgressIndicator(
+                modifier = Modifier
+                    .semantics(mergeDescendants = true) {}
+                    .fillMaxWidth()
+                    .offset(x = 0.dp, y = 0.dp),
+                progress = animatedProgress,
+            )
+        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -66,7 +85,7 @@ fun HomeScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(12.dp))
-            Row() {
+            Row(modifier = Modifier.padding(vertical = 8.dp)) {
                 Button(onClick = {
                     dateState.value = dateState.value.minusDays(1)
                 }) {

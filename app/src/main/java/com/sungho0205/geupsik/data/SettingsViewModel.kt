@@ -1,5 +1,7 @@
 package com.sungho0205.geupsik.data
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -22,7 +24,9 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
     val gradeClasses: SnapshotStateList<GradeClass> = mutableStateListOf()
     val meals: SnapshotStateList<MealServiceDiet> = mutableStateListOf()
     val timetables: SnapshotStateList<ElsTimetable> = mutableStateListOf()
+    @RequiresApi(Build.VERSION_CODES.O)
     val selectedDate: MutableState<LocalDate> = mutableStateOf(LocalDate.now())
+    val fetchProgress: MutableState<Float> = mutableStateOf(0.0f)
 
     fun getGradeClasses() {
         viewModelScope.launch {
@@ -36,20 +40,21 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
         }
     }
 
-    fun getMeals(date: String) {
+    fun getMeals(date: String, progress: MutableState<Float>) {
         viewModelScope.launch {
             settingFlow.collect {
                 queryMeal(
                     atptOfcdcScCode = it.atptOfcdcScCode,
                     sdSchulCode = it.sdSchulCode,
                     mlsvYmd = date,
-                    result = meals
+                    result = meals,
+                    progress = progress
                 )
             }
         }
     }
 
-    fun getTimetables(date: String) {
+    fun getTimetables(date: String, progress: MutableState<Float>) {
         viewModelScope.launch {
             settingFlow.collect {
                 queryTimetable(
@@ -58,7 +63,8 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
                     allTiYmd = date,
                     grade_ = it.grade,
                     class_ = it.class_,
-                    result = timetables
+                    result = timetables,
+                    progress = progress
                 )
             }
         }

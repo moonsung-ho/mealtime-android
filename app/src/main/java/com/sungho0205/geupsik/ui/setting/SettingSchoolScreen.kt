@@ -1,6 +1,7 @@
 package com.sungho0205.geupsik.ui.setting
 
 import android.widget.Toast
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sungho0205.geupsik.Settings
@@ -54,15 +56,34 @@ fun SettingSchoolScreen(
         openDialog.value = false
     }
 
+    val animatedProgress by animateFloatAsState(
+        targetValue = settingsViewModel.fetchProgress.value,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+    )
+
     Scaffold(topBar = {
         TopAppBar(title = { Text("학교 설정") }, navigationIcon = {
             IconButton(onClick = { navigationActions.navigateToSetting() }) {
                 Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "뒤로가기")
             }
         })
-    }, contentWindowInsets = WindowInsets(left = 16.dp, right = 16.dp)) { innerPadding ->
+    }) { innerPadding ->
+        if (settingsViewModel.fetchProgress.value > 0.0f) {
+            LinearProgressIndicator(
+                modifier = Modifier
+                    .semantics(mergeDescendants = true) {}
+                    .fillMaxWidth()
+                    .padding(innerPadding)
+                    .padding(horizontal = 0.dp)
+                    .offset(x = 0.dp, y = 0.dp),
+                progress = animatedProgress,
+            )
+        }
         Column(
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp)
+                .absoluteOffset(y = 4.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -117,7 +138,10 @@ fun SettingSchoolScreen(
                         if (query.isNotEmpty()) {
                             keyboardController?.hide()
                             searchSchools(
-                                query = query, region = region.value, result = schools
+                                query = query,
+                                region = region.value,
+                                result = schools,
+                                progress = settingsViewModel.fetchProgress
 
                             )
                         } else {
@@ -140,7 +164,8 @@ fun SettingSchoolScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp).padding(top = 16.dp),
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp),
             ) {
                 items(schools) {
                     Column {

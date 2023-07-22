@@ -1,6 +1,7 @@
 package com.sungho0205.geupsik.service
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.google.gson.Gson
 import com.sungho0205.geupsik.data.*
@@ -10,6 +11,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
+import kotlin.concurrent.timer
 
 interface TimetableAPI {
     @GET("/hub/elsTimetable")
@@ -34,8 +36,16 @@ fun queryTimetable(
     allTiYmd: String,
     grade_: String,
     class_: String,
-    result: SnapshotStateList<ElsTimetable>
+    result: SnapshotStateList<ElsTimetable>,
+    progress: MutableState<Float>
 ) {
+    timer(period = 100, initialDelay = 0) {
+        progress.value += 0.3f
+        if (progress.value >= 1f) {
+            cancel()
+            progress.value = 0f
+        }
+    }
     val call = api.getTimetable(atptOfcdcScCode, sdSchulCode, allTiYmd, grade_, class_)
     call.enqueue(object : Callback<ElsTimetableList> {
         override fun onResponse(
@@ -55,14 +65,17 @@ fun queryTimetable(
                 Log.d(TAG, "성공 : $count $message")
                 result.clear()
                 result.addAll(timetables)
+                progress.value = 0f
             } catch (t: Throwable) {
                 Log.d(TAG, "실패 : $t")
                 result.clear()
+                progress.value = 0f
             }
         }
 
         override fun onFailure(call: Call<ElsTimetableList>, t: Throwable) {
             Log.d(TAG, "실패 : $t")
+            progress.value = 0f
         }
     })
 }
