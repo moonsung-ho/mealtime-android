@@ -4,11 +4,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.sungho0205.geupsik.data.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MobileAds.initialize(this)
+        val testDeviceIds = listOf<String>("28A7C566C92F6B5E107D8D402DD899D8")
+        val adsConfiguration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
+        MobileAds.setRequestConfiguration(adsConfiguration)
         val settingsViewModel = ViewModelProvider(
             this,
             SettingsModelFactory(SettingsRepository(settingsDataStore))
