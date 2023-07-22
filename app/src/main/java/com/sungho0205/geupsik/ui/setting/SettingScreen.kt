@@ -18,6 +18,9 @@ import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.model.EAlergy
 import com.sungho0205.geupsik.ui.NavigationActions
+import com.sungho0205.geupsik.ui.theme.Yellow50
+import com.sungho0205.geupsik.ui.theme.Yellow500
+import com.sungho0205.geupsik.ui.theme.Yellow700
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,11 +30,9 @@ fun SettingScreen(
     val data: Settings =
         settingsViewModel.settingFlow.collectAsState(initial = Settings.getDefaultInstance()).value
 
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text("설정") })
-        }
-    ) { innerPadding ->
+    Scaffold(topBar = {
+        TopAppBar(title = { Text("설정") })
+    }) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -41,7 +42,8 @@ fun SettingScreen(
         ) {
             Card(
                 shape = RoundedCornerShape(8.dp),
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp),
+                colors = CardDefaults.cardColors(Yellow50)
             ) {
                 Column(
                     modifier = Modifier
@@ -49,7 +51,7 @@ fun SettingScreen(
                         .padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically)
                 ) {
-                    Text("현재 설정", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                    Text("현재 설정", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Yellow700)
                     Text(
                         "학교 : ${
                             if (data.schulNm.isNullOrBlank()) {
@@ -57,7 +59,7 @@ fun SettingScreen(
                             } else {
                                 data.schulNm
                             }
-                        }"
+                        }", color = Yellow500
                     )
                     Text(
                         "학년 반 : ${
@@ -66,16 +68,15 @@ fun SettingScreen(
                             } else {
                                 "${data.grade}학년 ${data.class_}반"
                             }
-                        }"
+                        }", color = Yellow500
                     )
-                    Text(
-                        "알러지 : ${
-                            data.alergiesList.map { myAlergy ->
-                                EAlergy.values().find { eAlergy ->
-                                    eAlergy.id == myAlergy.id
-                                }
-                            }.map { eAlergy -> eAlergy?.label }.joinToString(", ")
-                        }"
+                    Text("알러지 : ${
+                        data.alergiesList.map { myAlergy ->
+                            EAlergy.values().find { eAlergy ->
+                                eAlergy.id == myAlergy.id
+                            }
+                        }.map { eAlergy -> eAlergy?.label }.joinToString(", ")
+                    }", color = Yellow500
                     )
                 }
             }

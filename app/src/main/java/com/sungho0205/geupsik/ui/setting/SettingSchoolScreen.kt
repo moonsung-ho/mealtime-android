@@ -2,16 +2,13 @@ package com.sungho0205.geupsik.ui.setting
 
 import android.widget.Toast
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -33,6 +30,7 @@ import com.sungho0205.geupsik.model.Regions
 import com.sungho0205.geupsik.model.School
 import com.sungho0205.geupsik.service.searchSchools
 import com.sungho0205.geupsik.ui.NavigationActions
+import com.sungho0205.geupsik.ui.theme.Yellow500
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -110,7 +108,7 @@ fun SettingSchoolScreen(
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp)
-                        .background(Color.LightGray),
+                        .border(1.dp, Yellow500),
                     decorationBox = { innerTextField ->
                         Row(
                             modifier = Modifier
@@ -138,7 +136,7 @@ fun SettingSchoolScreen(
                         if (query.isNotEmpty()) {
                             keyboardController?.hide()
                             searchSchools(
-                                query = query,
+                                query = query.trim(),
                                 region = region.value,
                                 result = schools,
                                 progress = settingsViewModel.fetchProgress

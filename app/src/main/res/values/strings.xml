@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">mealtime</string>
+    <string name="app_name">급식시간</string>
     <string name="bnb_home">홈</string>
     <string name="bnb_timetable">시간표</string>
     <string name="bnb_setting">설정</string>

@@ -4,6 +4,8 @@ import android.app.DatePickerDialog
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,6 +18,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.semantics
@@ -26,6 +29,9 @@ import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.model.EAlergy
 import com.sungho0205.geupsik.ui.NavigationActions
+import com.sungho0205.geupsik.ui.theme.Yellow50
+import com.sungho0205.geupsik.ui.theme.Yellow500
+import com.sungho0205.geupsik.ui.theme.Yellow700
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -91,12 +97,14 @@ fun HomeScreen(
                     Icon(Icons.Filled.KeyboardArrowLeft, "어제")
                 }
                 OutlinedButton(
-                    onClick = { datePicker.show() }, modifier = Modifier.padding(horizontal = 8.dp)
+                    onClick = { datePicker.show() },
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    border = BorderStroke(width = 1.dp, color = Yellow500)
                 ) {
                     val formatter = DateTimeFormatter.ofPattern("yyyy년 M월 dd일(E)")
                     val selectedDate = dateState.value.format(formatter)
 
-                    Text(selectedDate)
+                    Text(selectedDate, fontWeight = FontWeight.Bold)
                 }
                 Button(onClick = {
                     dateState.value = dateState.value.plusDays(1)
@@ -131,6 +139,7 @@ fun HomeScreen(
                                 .padding(12.dp),
                             elevation = CardDefaults.cardElevation(2.dp),
                             shape = RoundedCornerShape(16.dp),
+                            colors = CardDefaults.cardColors(Yellow50)
                         ) {
                             Column(
                                 modifier = Modifier.padding(12.dp)
@@ -139,7 +148,8 @@ fun HomeScreen(
                                     Text(
                                         text = it.MMEAL_SC_NM,
                                         fontSize = 20.sp,
-                                        fontWeight = FontWeight.Bold
+                                        fontWeight = FontWeight.Bold,
+                                        color = Yellow700
                                     )
                                     Text("(${it.CAL_INFO})")
                                 }

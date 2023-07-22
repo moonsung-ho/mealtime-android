@@ -15,7 +15,6 @@
         android:theme="@style/Theme.Mealtime"
         tools:targetApi="31">
 
-        <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-7245930610023842~7170823403"/>

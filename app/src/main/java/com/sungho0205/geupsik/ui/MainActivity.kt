@@ -12,7 +12,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MobileAds.initialize(this)
-        val testDeviceIds = listOf<String>("28A7C566C92F6B5E107D8D402DD899D8")
+        val testDeviceIds = listOf<String>("28A7C566C92F6B5E107D8D402DD899D8", "0965157BAD418DBA392F8573A740BDD9")
         val adsConfiguration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
         MobileAds.setRequestConfiguration(adsConfiguration)
         val settingsViewModel = ViewModelProvider(

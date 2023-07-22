@@ -3,6 +3,7 @@ package com.sungho0205.geupsik.ui.timetable
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,10 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.ui.NavigationActions
+import com.sungho0205.geupsik.ui.theme.Yellow500
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -87,12 +90,13 @@ fun TimetableScreen(
                 }
                 OutlinedButton(
                     onClick = { datePicker.show() },
-                    modifier = Modifier.padding(horizontal = 8.dp)
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    border = BorderStroke(width = 1.dp, color = Yellow500)
                 ) {
                     val formatter = DateTimeFormatter.ofPattern("yyyy년 M월 dd일(E)")
                     val selectedDate = dateState.value.format(formatter)
 
-                    Text(selectedDate)
+                    Text(selectedDate, fontWeight = FontWeight.Bold)
                 }
                 Button(onClick = {
                     dateState.value = dateState.value.plusDays(1)
