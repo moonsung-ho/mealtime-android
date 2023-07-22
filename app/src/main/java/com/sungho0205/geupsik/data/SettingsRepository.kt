@@ -7,10 +7,7 @@ import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
 import com.google.protobuf.InvalidProtocolBufferException
 import com.sungho0205.geupsik.Settings
-import com.sungho0205.geupsik.model.Alergy
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
 import java.io.InputStream
 import java.io.OutputStream
 
