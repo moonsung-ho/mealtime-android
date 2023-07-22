@@ -20,17 +20,22 @@ fun GAds(context: Context) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp)
+            .height(54.dp)
             .background(color = Color.White)
+            .padding(top = 4.dp)
     ) {
+        val adRequest = AdRequest.Builder().build()
         AndroidView(
             modifier = Modifier.fillMaxWidth(),
             factory = { context ->
                 AdView(context).apply {
                     setAdSize(AdSize.BANNER)
                     adUnitId = "ca-app-pub-7245930610023842/2837359556"
-                    loadAd(AdRequest.Builder().build())
+                    loadAd(adRequest)
                 }
+            },
+            update = { adView ->
+                adView.loadAd(adRequest)
             }
         )
     }

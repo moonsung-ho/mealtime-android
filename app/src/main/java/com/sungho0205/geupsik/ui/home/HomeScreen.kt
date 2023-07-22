@@ -84,7 +84,6 @@ fun HomeScreen(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(12.dp))
             Row(modifier = Modifier.padding(vertical = 8.dp)) {
                 Button(onClick = {
                     dateState.value = dateState.value.minusDays(1)
@@ -105,7 +104,6 @@ fun HomeScreen(
                     Icon(Icons.Filled.KeyboardArrowRight, "내일")
                 }
             }
-            Spacer(modifier = Modifier.height(12.dp))
             if (data.sdSchulCode.isNullOrBlank()) {
                 Column(
                     modifier = Modifier.padding(innerPadding),
