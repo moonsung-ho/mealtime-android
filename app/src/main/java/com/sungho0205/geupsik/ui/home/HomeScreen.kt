@@ -5,7 +5,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,7 +17,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.semantics
@@ -36,8 +34,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-val calendar: Calendar = Calendar.getInstance()
-
 @OptIn(ExperimentalLayoutApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -47,6 +43,7 @@ fun HomeScreen(
     val data: Settings =
         settingsViewModel.settingFlow.collectAsState(initial = Settings.getDefaultInstance()).value
     val meals = settingsViewModel.meals
+    val calendar = settingsViewModel.calendar
     val dateState = settingsViewModel.selectedDate
 
     val context = LocalContext.current
@@ -95,6 +92,7 @@ fun HomeScreen(
         ) {
             Row(modifier = Modifier.padding(vertical = 8.dp)) {
                 Button(onClick = {
+                    calendar.add(Calendar.DAY_OF_MONTH, -1)
                     dateState.value = dateState.value.minusDays(1)
                 }) {
                     Icon(Icons.Filled.KeyboardArrowLeft, "어제")
@@ -104,12 +102,13 @@ fun HomeScreen(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     border = BorderStroke(width = 1.dp, color = Yellow500)
                 ) {
-                    val formatter = DateTimeFormatter.ofPattern("yyyy년 M월 dd일(E)")
+                    val formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일(E)")
                     val selectedDate = dateState.value.format(formatter)
 
                     Text(selectedDate, fontWeight = FontWeight.Bold)
                 }
                 Button(onClick = {
+                    calendar.add(Calendar.DAY_OF_MONTH, 1)
                     dateState.value = dateState.value.plusDays(1)
                 }) {
                     Icon(Icons.Filled.KeyboardArrowRight, "내일")

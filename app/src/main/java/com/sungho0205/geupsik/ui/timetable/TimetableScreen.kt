@@ -26,8 +26,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-val calendar: Calendar = Calendar.getInstance()
-
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,6 +37,7 @@ fun TimetableScreen(
     val timetables = settingsViewModel.timetables.filter {
         it.ITRT_CNTNT != null
     }
+    val calendar = settingsViewModel.calendar
     val dateState = settingsViewModel.selectedDate
 
     val context = LocalContext.current
@@ -87,6 +86,7 @@ fun TimetableScreen(
         ) {
             Row(modifier = Modifier.padding(vertical = 8.dp)) {
                 Button(onClick = {
+                    calendar.add(Calendar.DAY_OF_MONTH, -1)
                     dateState.value = dateState.value.minusDays(1)
                 }) {
                     Icon(Icons.Filled.KeyboardArrowLeft, "어제")
@@ -96,12 +96,13 @@ fun TimetableScreen(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     border = BorderStroke(width = 1.dp, color = Yellow500)
                 ) {
-                    val formatter = DateTimeFormatter.ofPattern("yyyy년 M월 dd일(E)")
+                    val formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일(E)")
                     val selectedDate = dateState.value.format(formatter)
 
                     Text(selectedDate, fontWeight = FontWeight.Bold)
                 }
                 Button(onClick = {
+                    calendar.add(Calendar.DAY_OF_MONTH, 1)
                     dateState.value = dateState.value.plusDays(1)
                 }) {
                     Icon(Icons.Filled.KeyboardArrowRight, "내일")

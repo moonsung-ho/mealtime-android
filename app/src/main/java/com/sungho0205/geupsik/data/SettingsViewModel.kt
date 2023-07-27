@@ -18,6 +18,7 @@ import com.sungho0205.geupsik.service.searchGradeClasses
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.util.Calendar
 
 class SettingsViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
     val settingFlow: Flow<Settings> = settingsRepository.settingsFlow
@@ -27,6 +28,7 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
     @RequiresApi(Build.VERSION_CODES.O)
     val selectedDate: MutableState<LocalDate> = mutableStateOf(LocalDate.now())
     val fetchProgress: MutableState<Float> = mutableStateOf(0.0f)
+    val calendar: Calendar = Calendar.getInstance()
 
     fun getGradeClasses() {
         viewModelScope.launch {
