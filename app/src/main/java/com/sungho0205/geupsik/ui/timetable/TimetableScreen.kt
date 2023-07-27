@@ -54,6 +54,7 @@ fun TimetableScreen(
     val datePicker = android.app.DatePickerDialog(
         context,
         { _, year, month, dayOfMonth ->
+            calendar.set(year, month, dayOfMonth)
             dateState.value = LocalDate.of(year, month + 1, dayOfMonth)
         },
         calendar.get(Calendar.YEAR),
