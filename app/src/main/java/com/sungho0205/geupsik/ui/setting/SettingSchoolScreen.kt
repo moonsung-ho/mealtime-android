@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -20,6 +21,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
@@ -88,6 +90,8 @@ fun SettingSchoolScreen(
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
+                val focusManager = LocalFocusManager.current
+
                 Button(
                     modifier = Modifier
                         .width(60.dp)
@@ -104,6 +108,17 @@ fun SettingSchoolScreen(
                     onValueChange = {
                         query = it
                     },
+                    keyboardActions = KeyboardActions(onDone = {
+                        focusManager.clearFocus()
+                        keyboardController?.hide()
+                        searchSchools(
+                            query = query.trim(),
+                            region = region.value,
+                            result = schools,
+                            progress = settingsViewModel.fetchProgress
+
+                        )
+                    }),
                     singleLine = true,
                     modifier = Modifier
                         .weight(1f)

@@ -1,5 +1,7 @@
 package com.sungho0205.geupsik.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -15,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.ui.theme.MealtimeTheme
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MealtimeApp(settingsViewModel: SettingsViewModel) {
@@ -29,9 +32,10 @@ fun MealtimeApp(settingsViewModel: SettingsViewModel) {
         val currentRoute = navBackStackEntry?.destination?.route
 
         Scaffold(bottomBar = {
-            if (currentRoute == Destinations.HOME_ROUTE
-                || currentRoute == Destinations.TIMETABLE_ROUTE
-                || currentRoute == Destinations.SETTING_ROUTE
+            if (currentRoute == Destinations.HOME_TAB
+                || currentRoute == Destinations.TIMETABLE_TAB
+                || currentRoute == Destinations.SETTING_TAB
+                || currentRoute == Destinations.SETTING_MAIN
             ) {
                 Column() {
                     GAds(context = context)

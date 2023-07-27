@@ -36,6 +36,8 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+val calendar: Calendar = Calendar.getInstance()
+
 @OptIn(ExperimentalLayoutApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -47,7 +49,6 @@ fun HomeScreen(
     val meals = settingsViewModel.meals
     val dateState = settingsViewModel.selectedDate
 
-    val calendar = Calendar.getInstance()
     val context = LocalContext.current
 
     LaunchedEffect(key1 = data.sdSchulCode, key2 = dateState.value, block = {
@@ -61,6 +62,7 @@ fun HomeScreen(
     val datePicker = DatePickerDialog(
         context,
         { _, year, month, dayOfMonth ->
+            calendar.set(year, month, dayOfMonth)
             dateState.value = LocalDate.of(year, month + 1, dayOfMonth)
         },
         calendar.get(Calendar.YEAR),
@@ -70,7 +72,8 @@ fun HomeScreen(
 
     val animatedProgress by animateFloatAsState(
         targetValue = settingsViewModel.fetchProgress.value,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+        label = "fetching_progress_home"
     )
 
     Scaffold() { innerPadding ->

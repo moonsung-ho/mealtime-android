@@ -26,6 +26,8 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+val calendar: Calendar = Calendar.getInstance()
+
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,7 +41,6 @@ fun TimetableScreen(
     }
     val dateState = settingsViewModel.selectedDate
 
-    val calendar = Calendar.getInstance()
     val context = LocalContext.current
 
     LaunchedEffect(key1 = data.sdSchulCode, key2 = dateState.value, block = {
@@ -62,7 +63,8 @@ fun TimetableScreen(
 
     val animatedProgress by animateFloatAsState(
         targetValue = settingsViewModel.fetchProgress.value,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+        label = "fetching_progress_timetable"
     )
 
     Scaffold() { innerPadding ->

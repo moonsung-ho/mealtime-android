@@ -13,9 +13,10 @@ import com.sungho0205.geupsik.ui.theme.Yellow50
 import com.sungho0205.geupsik.ui.theme.Yellow700
 
 object Destinations {
-    const val HOME_ROUTE = "home"
-    const val TIMETABLE_ROUTE = "timetable"
-    const val SETTING_ROUTE = "setting"
+    const val HOME_TAB = "home_tab"
+    const val TIMETABLE_TAB = "timetable_tab"
+    const val SETTING_TAB = "setting_tab"
+    const val SETTING_MAIN = "setting"
     const val SETTING_SCHOOL = "setting_school"
     const val SETTING_GRADE_CLASS = "setting_grade_class"
     const val SETTING_ALERGY = "setting_alergy"
@@ -23,7 +24,7 @@ object Destinations {
 
 class NavigationActions(navController: NavHostController) {
     val navigateToHome: () -> Unit = {
-        navController.navigate(Destinations.HOME_ROUTE) {
+        navController.navigate(Destinations.HOME_TAB) {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
             // on the back stack as users select items
@@ -38,7 +39,7 @@ class NavigationActions(navController: NavHostController) {
         }
     }
     val navigateToTimetable: () -> Unit = {
-        navController.navigate(Destinations.TIMETABLE_ROUTE) {
+        navController.navigate(Destinations.TIMETABLE_TAB) {
             popUpTo(navController.graph.findStartDestination().id) {
                 saveState = true
             }
@@ -47,7 +48,7 @@ class NavigationActions(navController: NavHostController) {
         }
     }
     val navigateToSetting: () -> Unit = {
-        navController.navigate(Destinations.SETTING_ROUTE) {
+        navController.navigate(Destinations.SETTING_MAIN) {
             popUpTo(navController.graph.findStartDestination().id) {
                 saveState = true
             }
@@ -57,27 +58,27 @@ class NavigationActions(navController: NavHostController) {
     }
     val navigateToSettingSchool: () -> Unit = {
         navController.navigate(Destinations.SETTING_SCHOOL) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
-            }
+//            popUpTo(navController.graph.findStartDestination().id) {
+//                saveState = true
+//            }
             launchSingleTop = true
             restoreState = true
         }
     }
     val navigateToSettingGradeClass: () -> Unit = {
         navController.navigate(Destinations.SETTING_GRADE_CLASS) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
-            }
+//            popUpTo(navController.graph.findStartDestination().id) {
+//                saveState = true
+//            }
             launchSingleTop = true
             restoreState = true
         }
     }
     val navigateToSettingAlergy: () -> Unit = {
         navController.navigate(Destinations.SETTING_ALERGY) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
-            }
+//            popUpTo(navController.graph.findStartDestination().id) {
+//                saveState = true
+//            }
             launchSingleTop = true
             restoreState = true
         }
@@ -96,7 +97,7 @@ fun BottomNavigation(
         contentColor = Yellow700
     ) {
         NavigationBarItem(
-            selected = currentRoute == Destinations.HOME_ROUTE,
+            selected = currentRoute == Destinations.HOME_TAB,
             onClick = { navigateToHome() },
             icon = {
                 Icon(
@@ -104,7 +105,7 @@ fun BottomNavigation(
                     contentDescription = stringResource(id = R.string.bnb_home)
                 )
             },
-            colors=NavigationBarItemDefaults.colors(
+            colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.primary,
                 unselectedIconColor = Color.Gray,
                 selectedTextColor = MaterialTheme.colorScheme.primary,
@@ -115,7 +116,7 @@ fun BottomNavigation(
             alwaysShowLabel = true
         )
         NavigationBarItem(
-            selected = currentRoute == Destinations.TIMETABLE_ROUTE,
+            selected = currentRoute == Destinations.TIMETABLE_TAB,
             onClick = { navigateToTimetable() },
             icon = {
                 Icon(
@@ -123,7 +124,7 @@ fun BottomNavigation(
                     contentDescription = stringResource(id = R.string.bnb_timetable)
                 )
             },
-            colors=NavigationBarItemDefaults.colors(
+            colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.primary,
                 unselectedIconColor = Color.Gray,
                 selectedTextColor = MaterialTheme.colorScheme.primary,
@@ -134,7 +135,7 @@ fun BottomNavigation(
             alwaysShowLabel = true,
         )
         NavigationBarItem(
-            selected = currentRoute == Destinations.SETTING_ROUTE,
+            selected = currentRoute == Destinations.SETTING_TAB || currentRoute == Destinations.SETTING_MAIN,
             onClick = { navigateToSetting() },
             icon = {
                 Icon(
@@ -142,7 +143,7 @@ fun BottomNavigation(
                     contentDescription = stringResource(id = R.string.bnb_setting)
                 )
             },
-            colors=NavigationBarItemDefaults.colors(
+            colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.primary,
                 unselectedIconColor = Color.Gray,
                 selectedTextColor = MaterialTheme.colorScheme.primary,
