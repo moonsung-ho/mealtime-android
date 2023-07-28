@@ -12,7 +12,9 @@ import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.model.ElsTimetable
 import com.sungho0205.geupsik.model.GradeClass
 import com.sungho0205.geupsik.model.MealServiceDiet
+import com.sungho0205.geupsik.model.Notice
 import com.sungho0205.geupsik.service.queryMeal
+import com.sungho0205.geupsik.service.queryNotices
 import com.sungho0205.geupsik.service.queryTimetable
 import com.sungho0205.geupsik.service.searchGradeClasses
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +27,7 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
     val gradeClasses: SnapshotStateList<GradeClass> = mutableStateListOf()
     val meals: SnapshotStateList<MealServiceDiet> = mutableStateListOf()
     val timetables: SnapshotStateList<ElsTimetable> = mutableStateListOf()
+    val notices: SnapshotStateList<Notice> = mutableStateListOf()
     @RequiresApi(Build.VERSION_CODES.O)
     val selectedDate: MutableState<LocalDate> = mutableStateOf(LocalDate.now())
     val fetchProgress: MutableState<Float> = mutableStateOf(0.0f)
@@ -72,6 +75,12 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
         }
     }
 
+    fun getNotices() {
+        viewModelScope.launch {
+            queryNotices(result = notices)
+        }
+    }
+
     fun updateSchool(
         atptOfcdcScCode: String,
         sdSchulCode: String,
@@ -99,6 +108,12 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
     fun updateAlergies(alergyIds: Iterable<com.sungho0205.geupsik.Alergy>) {
         viewModelScope.launch {
             settingsRepository.updateAlergies(alergyIds)
+        }
+    }
+
+    fun updateLastSeenNotice(timeMillis: String) {
+        viewModelScope.launch {
+            settingsRepository.updateLastSeenNotice(timeMillis = timeMillis)
         }
     }
 }

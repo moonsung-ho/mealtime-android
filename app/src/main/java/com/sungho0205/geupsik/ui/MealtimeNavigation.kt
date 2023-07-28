@@ -1,6 +1,11 @@
 package com.sungho0205.geupsik.ui
 
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -17,9 +22,11 @@ object Destinations {
     const val TIMETABLE_TAB = "timetable_tab"
     const val SETTING_TAB = "setting_tab"
     const val SETTING_MAIN = "setting"
-    const val SETTING_SCHOOL = "setting_school"
-    const val SETTING_GRADE_CLASS = "setting_grade_class"
-    const val SETTING_ALERGY = "setting_alergy"
+    const val SETTING_SCHOOL = "setting/school"
+    const val SETTING_GRADE_CLASS = "setting/grade_class"
+    const val SETTING_ALERGY = "setting/alergy"
+    const val SETTING_NOTICES = "setting/notices"
+    const val SETTING_NOTICE = "setting/notices/{noticeId}"
 }
 
 class NavigationActions(navController: NavHostController) {
@@ -83,6 +90,22 @@ class NavigationActions(navController: NavHostController) {
             restoreState = true
         }
     }
+    val navigateToSettingNotices: () -> Unit = {
+        navController.navigate(Destinations.SETTING_NOTICES) {
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+    val navigateToSettingNoticeDetail: (noticeId: String) -> Unit = { noticeId ->
+        navController.navigate(
+            Destinations.SETTING_NOTICE.replace(
+                oldValue = "{noticeId}", newValue = noticeId
+            )
+        ) {
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
 }
 
 @Composable
@@ -93,8 +116,7 @@ fun BottomNavigation(
     navigateToSetting: () -> Unit
 ) {
     NavigationBar(
-        containerColor = Color.White,
-        contentColor = Yellow700
+        containerColor = Color.White, contentColor = Yellow700
     ) {
         NavigationBarItem(
             selected = currentRoute == Destinations.HOME_TAB,

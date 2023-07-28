@@ -1,6 +1,5 @@
 package com.sungho0205.geupsik.ui.setting
 
-import android.widget.Space
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -101,6 +100,13 @@ fun SettingScreen(
                 Icon(Icons.Filled.KeyboardArrowRight, "알러지 설정하기")
             }, modifier = Modifier.clickable {
                 navigationActions.navigateToSettingAlergy()
+            })
+            ListItem(headlineText = {
+                Text(text = "공지사항")
+            }, trailingContent = {
+                Icon(Icons.Filled.KeyboardArrowRight, "공지사항 보기")
+            }, modifier = Modifier.clickable {
+                navigationActions.navigateToSettingNotices()
             })
         }
     }

@@ -23,7 +23,7 @@ interface SchoolAPI {
     ): Call<SchoolInfoList>
 }
 
-private val api: SchoolAPI = APIClient().getClient().create(SchoolAPI::class.java)
+private val api: SchoolAPI = APIClient().getClient(API.OpenNeis).create(SchoolAPI::class.java)
 private val gson = Gson()
 private const val TAG: String = " SCHOOL API CALL"
 

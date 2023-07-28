@@ -26,7 +26,7 @@ interface MealAPI {
     ): Call<MealServiceDietInfoList>
 }
 
-private val api: MealAPI = APIClient().getClient().create(MealAPI::class.java)
+private val api: MealAPI = APIClient().getClient(API.OpenNeis).create(MealAPI::class.java)
 private val gson = Gson()
 private const val TAG: String = "MEAL API CALL"
 

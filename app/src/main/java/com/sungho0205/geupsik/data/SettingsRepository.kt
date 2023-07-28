@@ -68,4 +68,12 @@ class SettingsRepository(
             }).build()
         }
     }
+
+    suspend fun updateLastSeenNotice(
+        timeMillis: String
+    ) {
+        settingsDataStore.updateData {currentSettings ->
+            currentSettings.toBuilder().setLastSeenNotice(timeMillis).build()
+        }
+    }
 }

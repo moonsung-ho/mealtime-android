@@ -22,7 +22,7 @@ interface GradeClassAPI {
     ): Call<GradeClassInfoList>
 }
 
-private val api: GradeClassAPI = APIClient().getClient().create(GradeClassAPI::class.java)
+private val api: GradeClassAPI = APIClient().getClient(API.OpenNeis).create(GradeClassAPI::class.java)
 private val gson = Gson()
 private const val TAG: String = "GRADECLASS API CALL"
 

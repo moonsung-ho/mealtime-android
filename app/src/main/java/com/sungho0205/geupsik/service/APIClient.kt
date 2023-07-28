@@ -3,11 +3,14 @@ package com.sungho0205.geupsik.service
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL = "https://open.neis.go.kr/"
+enum class API(val value: String) {
+    OpenNeis("https://open.neis.go.kr/"),
+    GitHubs("https://raw.githubusercontent.com/")
+}
 
 class APIClient {
-    fun getClient(): Retrofit {
-        return Retrofit.Builder().baseUrl(BASE_URL)
+    fun getClient(api: API): Retrofit {
+        return Retrofit.Builder().baseUrl(api.value)
             .addConverterFactory(GsonConverterFactory.create()).build()
     }
 }

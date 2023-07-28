@@ -14,6 +14,8 @@ import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.ui.home.HomeScreen
 import com.sungho0205.geupsik.ui.setting.SettingAlergyScreen
 import com.sungho0205.geupsik.ui.setting.SettingGradeClassScreen
+import com.sungho0205.geupsik.ui.setting.SettingNoticeScreen
+import com.sungho0205.geupsik.ui.setting.SettingNoticesScreen
 import com.sungho0205.geupsik.ui.setting.SettingSchoolScreen
 import com.sungho0205.geupsik.ui.setting.SettingScreen
 import com.sungho0205.geupsik.ui.timetable.TimetableScreen
@@ -74,6 +76,21 @@ fun MealtimeNavGraph(
                 SettingAlergyScreen(
                     navigationActions = navigationActions, settingsViewModel = settingsViewModel
                 )
+            }
+            composable(route = Destinations.SETTING_NOTICES) {
+                SettingNoticesScreen(
+                    navigationActions = navigationActions, settingsViewModel = settingsViewModel
+                )
+            }
+            composable(route = Destinations.SETTING_NOTICE) { navBackStackEntry ->
+                val noticeId = navBackStackEntry.arguments?.getString("noticeId")
+                noticeId?.let {
+                    SettingNoticeScreen(
+                        navigationActions = navigationActions,
+                        settingsViewModel = settingsViewModel,
+                        noticeId = noticeId
+                    )
+                }
             }
         }
     }

@@ -26,7 +26,7 @@ interface TimetableAPI {
     ): Call<ElsTimetableList>
 }
 
-private val api: TimetableAPI = APIClient().getClient().create(TimetableAPI::class.java)
+private val api: TimetableAPI = APIClient().getClient(API.OpenNeis).create(TimetableAPI::class.java)
 private val gson = Gson()
 private const val TAG: String = "TIMETABLE API CALL"
 
@@ -49,8 +49,7 @@ fun queryTimetable(
     val call = api.getTimetable(atptOfcdcScCode, sdSchulCode, allTiYmd, grade_, class_)
     call.enqueue(object : Callback<ElsTimetableList> {
         override fun onResponse(
-            call: Call<ElsTimetableList>,
-            response: Response<ElsTimetableList>
+            call: Call<ElsTimetableList>, response: Response<ElsTimetableList>
         ) {
             try {
                 val rawHead = response.body()?.elsTimetable?.get(0)
