@@ -1,12 +1,12 @@
 package com.sungho0205.geupsik.ui
 
 import android.os.Build
+import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -28,6 +28,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.ui.theme.MealtimeTheme
@@ -35,7 +36,7 @@ import com.sungho0205.geupsik.utils.compareDateAndTimestamp
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MealtimeApp(settingsViewModel: SettingsViewModel) {
+fun MealtimeApp(firebaseAnalytics: FirebaseAnalytics, settingsViewModel: SettingsViewModel) {
     MealtimeTheme {
         val context = LocalContext.current
         val navController = rememberNavController()
@@ -49,6 +50,18 @@ fun MealtimeApp(settingsViewModel: SettingsViewModel) {
         val data: Settings =
             settingsViewModel.settingFlow.collectAsState(initial = Settings.getDefaultInstance()).value
         val notices = settingsViewModel.notices
+
+        LaunchedEffect(Unit) {
+            navController.addOnDestinationChangedListener { _, destination, arguments ->
+                var params = Bundle()
+                val screenName = arguments?.getInt("noticeId")?.let { noticeId ->
+                    destination.route?.replace("{noticeId}", noticeId.toString())
+                } ?: destination.route
+                params.putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
+                params.putString(FirebaseAnalytics.Param.SCREEN_CLASS, destination.route as String?)
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, params)
+            }
+        }
 
         val lifecycleEvent = rememberLifecycleEvent()
         LaunchedEffect(lifecycleEvent) {

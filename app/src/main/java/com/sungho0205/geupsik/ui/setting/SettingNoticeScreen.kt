@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.data.*
 import com.sungho0205.geupsik.ui.NavigationActions
 import java.text.SimpleDateFormat
@@ -20,12 +19,10 @@ import java.util.TimeZone
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingNoticeScreen(
-    navigationActions: NavigationActions, settingsViewModel: SettingsViewModel, noticeId: String,
+    navigationActions: NavigationActions, settingsViewModel: SettingsViewModel, noticeId: Int,
 ) {
-    val data: Settings =
-        settingsViewModel.settingFlow.collectAsState(initial = Settings.getDefaultInstance()).value
     val notices = settingsViewModel.notices
-    val notice = notices.find { notice -> notice.id == noticeId.toIntOrNull() }
+    val notice = notices.find { notice -> notice.id == noticeId }
 
     LaunchedEffect(Unit) {
         settingsViewModel.getNotices()

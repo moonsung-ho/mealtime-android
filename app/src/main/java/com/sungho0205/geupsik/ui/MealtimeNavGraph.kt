@@ -5,10 +5,12 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.ui.home.HomeScreen
@@ -82,8 +84,11 @@ fun MealtimeNavGraph(
                     navigationActions = navigationActions, settingsViewModel = settingsViewModel
                 )
             }
-            composable(route = Destinations.SETTING_NOTICE) { navBackStackEntry ->
-                val noticeId = navBackStackEntry.arguments?.getString("noticeId")
+            composable(
+                route = Destinations.SETTING_NOTICE,
+                arguments = listOf(navArgument("noticeId") { type = NavType.IntType })
+            ) { navBackStackEntry ->
+                val noticeId = navBackStackEntry.arguments?.getInt("noticeId")
                 noticeId?.let {
                     SettingNoticeScreen(
                         navigationActions = navigationActions,
