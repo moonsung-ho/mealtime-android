@@ -13,8 +13,8 @@ android {
         applicationId "com.sungho0205.geupsik"
         minSdk 23
         targetSdk 33
-        versionCode 129
-        versionName "5.5.1"
+        versionCode 130
+        versionName "5.5.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
