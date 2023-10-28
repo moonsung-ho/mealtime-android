@@ -100,7 +100,7 @@ fun SettingSchoolScreen(
     )
 
     Scaffold(topBar = {
-        TopAppBar(title = { Text("학교 설정") }, navigationIcon = {
+        TopAppBar(title = { Text("학교 설정하기") }, navigationIcon = {
             IconButton(onClick = { navigationActions.navigateToSetting() }) {
                 Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "뒤로가기")
             }
@@ -170,7 +170,7 @@ fun SettingSchoolScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             if (query.isEmpty()) {
-                                Text("학교 이름으로 검색하세요", fontSize = 14.sp)
+                                Text("학교를 찾을 수 없어요.", fontSize = 14.sp)
                             }
                         }
                         Row(
@@ -196,7 +196,7 @@ fun SettingSchoolScreen(
 
                             )
                         } else {
-                            Toast.makeText(context, "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "학교 이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
                         }
                     }, shape = RoundedCornerShape(
                         topStart = 0.dp, topEnd = 8.dp, bottomEnd = 8.dp, bottomStart = 0.dp
@@ -204,7 +204,7 @@ fun SettingSchoolScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Search,
-                        contentDescription = "학교 검색",
+                        contentDescription = "학교 검색하기",
                         tint = Color.White,
                         modifier = Modifier
                             .width(24.dp)
@@ -230,7 +230,7 @@ fun SettingSchoolScreen(
                         }, headlineText = { Text(it.SCHUL_NM) }, trailingContent = {
                             Icon(
                                 Icons.Filled.KeyboardArrowRight,
-                                contentDescription = "학년 반 설정",
+                                contentDescription = "학년/반 설정",
                             )
                         })
                         Divider()

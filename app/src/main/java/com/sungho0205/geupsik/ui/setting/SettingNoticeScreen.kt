@@ -60,9 +60,9 @@ fun SettingNoticeScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(notice.description)
             } else {
-                Text("공지사항을 찾을 수 없습니다.")
+                Text("공지사항을 찾을 수 없어요.")
                 Button(onClick = { navigationActions.navigateToSetting() }) {
-                    Text("설정으로 돌아가기")
+                    Text("돌아가기")
                 }
             }
         }

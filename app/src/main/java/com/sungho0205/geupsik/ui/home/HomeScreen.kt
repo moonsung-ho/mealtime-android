@@ -102,7 +102,7 @@ fun HomeScreen(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     border = BorderStroke(width = 1.dp, color = Yellow500)
                 ) {
-                    val formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일(E)")
+                    val formatter = DateTimeFormatter.ofPattern("yyyy. M. d.")
                     val selectedDate = dateState.value.format(formatter)
 
                     Text(selectedDate, fontWeight = FontWeight.Bold)
@@ -119,14 +119,14 @@ fun HomeScreen(
                     modifier = Modifier.padding(innerPadding),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("학교 설정을 하면 급식 메뉴를 볼 수 있어요.")
+                    Text("학교를 등록하면 급식을 볼 수 있어요.")
                     TextButton(onClick = { navigationActions.navigateToSetting() }) {
-                        Text("설정하러 가기")
+                        Text("학교 설정하러 가기")
                     }
                 }
             } else if (meals.size == 0) {
                 Column(modifier = Modifier.padding(innerPadding)) {
-                    Text("식단표를 찾을 수가 없어요.")
+                    Text("급식이 등록되지 않았어요.")
                 }
             } else {
                 LazyColumn(
@@ -198,9 +198,9 @@ fun HomeScreen(
                                         if (hasAlergy) {
                                             AssistChip(onClick = {
                                                 showAlergies.value = !showAlergies.value
-                                            }, label = { Text("알러지") }, leadingIcon = {
+                                            }, label = { Text("알레르기") }, leadingIcon = {
                                                 Icon(
-                                                    Icons.Default.Warning, "알러지 경고"
+                                                    Icons.Default.Warning, "알레르기 경고"
                                                 )
                                             })
                                         }

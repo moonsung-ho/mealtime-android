@@ -30,7 +30,7 @@ fun SettingScreen(
         settingsViewModel.settingFlow.collectAsState(initial = Settings.getDefaultInstance()).value
 
     Scaffold(topBar = {
-        TopAppBar(title = { Text("설정") })
+        TopAppBar(title = { Text("더보기") })
     }) { innerPadding ->
         Column(
             modifier = Modifier
@@ -61,7 +61,7 @@ fun SettingScreen(
                         }", color = Yellow500
                     )
                     Text(
-                        "학년 반 : ${
+                        "학년/반 : ${
                             if (data.class_.isNullOrBlank()) {
                                 ""
                             } else {
@@ -69,7 +69,7 @@ fun SettingScreen(
                             }
                         }", color = Yellow500
                     )
-                    Text("알러지 : ${
+                    Text("알레르기 : ${
                         data.alergiesList.map { myAlergy ->
                             EAlergy.values().find { eAlergy ->
                                 eAlergy.id == myAlergy.id
@@ -81,23 +81,23 @@ fun SettingScreen(
             }
             Spacer(Modifier.height(16.dp))
             ListItem(headlineText = {
-                Text(text = "학교 설정")
+                Text(text = "학교 설정하기")
             }, trailingContent = {
                 Icon(Icons.Filled.KeyboardArrowRight, "학교 설정하기")
             }, modifier = Modifier.clickable {
                 navigationActions.navigateToSettingSchool()
             })
             ListItem(headlineText = {
-                Text(text = "학년 반 설정")
+                Text(text = "학년/반 설정하기")
             }, trailingContent = {
                 Icon(Icons.Filled.KeyboardArrowRight, "학년 반 설정하기")
             }, modifier = Modifier.clickable {
                 navigationActions.navigateToSettingGradeClass()
             })
             ListItem(headlineText = {
-                Text(text = "알러지 설정")
+                Text(text = "알레르기 설정하기")
             }, trailingContent = {
-                Icon(Icons.Filled.KeyboardArrowRight, "알러지 설정하기")
+                Icon(Icons.Filled.KeyboardArrowRight, "알레르기 설정하기")
             }, modifier = Modifier.clickable {
                 navigationActions.navigateToSettingAlergy()
             })

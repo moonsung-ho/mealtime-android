@@ -29,7 +29,7 @@ fun SettingGradeClassScreen(
     })
 
     Scaffold(topBar = {
-        TopAppBar(title = { Text("학년 반 설정") }, navigationIcon = {
+        TopAppBar(title = { Text("학년/반 설정") }, navigationIcon = {
             IconButton(onClick = { navigationActions.navigateToSetting() }) {
                 Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "뒤로가기")
             }
@@ -41,7 +41,7 @@ fun SettingGradeClassScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                "학년과 반을 설정하면 급식 메뉴와 시간표를 알려줄 수 있어요.",
+                "학년/반을 설정하면 급식 메뉴와 시간표를 알려드려요.",
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .padding(bottom = 16.dp)

@@ -27,7 +27,7 @@ fun SettingAlergyScreen(
         settingsViewModel.settingFlow.collectAsState(initial = Settings.getDefaultInstance()).value
 
     Scaffold(topBar = {
-        TopAppBar(title = { Text("알러지 설정") }, navigationIcon = {
+        TopAppBar(title = { Text("알레르기 설정") }, navigationIcon = {
             IconButton(onClick = { navigationActions.navigateToSetting() }) {
                 Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "뒤로가기")
             }
@@ -39,7 +39,7 @@ fun SettingAlergyScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                "알러지 설정을 하면 급식 메뉴 중 해당 알러지 성분을 표시해줄 수 있어요.",
+                "알레르기를 설정하면 급식 메뉴 중 해당 성분을 강조해서 표시해요.",
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .padding(bottom = 16.dp)

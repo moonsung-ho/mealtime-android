@@ -113,7 +113,7 @@ fun TimetableScreen(
                     modifier = Modifier.padding(innerPadding),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("학교 설정을 하면 시간표를 볼 수 있어요.")
+                    Text("학교를 등록하면 시간표를 볼 수 있어요.")
                     TextButton(onClick = { navigationActions.navigateToSetting() }) {
                         Text("설정하러 가기")
                     }
@@ -123,13 +123,13 @@ fun TimetableScreen(
                     modifier = Modifier.padding(innerPadding),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("학년 반을 설정하면 시간표를 볼 수 있어요.")
+                    Text("학년/반을 등록하면 시간표를 볼 수 있어요.")
                     TextButton(onClick = { navigationActions.navigateToSetting() }) {
                         Text("설정하러 가기")
                     }
                 }
             } else if (timetables.isEmpty()) {
-                Text("시간표를 찾을 수 없어요.")
+                Text("시간표가 등록되지 않았어요.")
             } else {
                 LazyColumn(
                     modifier = Modifier
