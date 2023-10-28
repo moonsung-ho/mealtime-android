@@ -96,7 +96,7 @@ fun TimetableScreen(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     border = BorderStroke(width = 1.dp, color = Yellow500)
                 ) {
-                    val formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일(E)")
+                    val formatter = DateTimeFormatter.ofPattern("yyyy. M. d.")
                     val selectedDate = dateState.value.format(formatter)
 
                     Text(selectedDate, fontWeight = FontWeight.Bold)
