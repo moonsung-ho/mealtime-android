@@ -2,13 +2,12 @@ package com.sungho0205.geupsik.ui
 
 import android.content.Context
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.gms.ads.AdRequest
@@ -20,9 +19,8 @@ fun GAds(context: Context) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(54.dp)
-            .background(color = Color.White)
-            .padding(top = 4.dp)
+            .background(color = Color.LightGray)
+            .padding(top = 12.dp, bottom = 12.dp)
     ) {
         val adRequest = AdRequest.Builder().build()
         AndroidView(
