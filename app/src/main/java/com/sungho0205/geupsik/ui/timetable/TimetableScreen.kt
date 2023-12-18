@@ -149,7 +149,12 @@ fun TimetableScreen(
                 ) {
                     items(timetablesHigh) {
                         ListItem(
-                            headlineText = { Text(it.ITRT_CNTNT) }
+                            headlineText = {
+                                Row {
+                                    Text("(${it.PERIO}교시) ")
+                                    Text(it.ITRT_CNTNT)
+                                }
+                            }
                         )
                         Divider()
                     }
@@ -164,7 +169,12 @@ fun TimetableScreen(
                 ) {
                     items(timetablesMiddle) {
                         ListItem(
-                            headlineText = { Text(it.ITRT_CNTNT) }
+                            headlineText = {
+                                Row {
+                                    Text("(${it.PERIO}교시) ")
+                                    Text(it.ITRT_CNTNT)
+                                }
+                            }
                         )
                         Divider()
                     }
@@ -179,7 +189,12 @@ fun TimetableScreen(
                 ) {
                     items(timetablesElementary) {
                         ListItem(
-                            headlineText = { Text(it.ITRT_CNTNT) }
+                            headlineText = {
+                                Row {
+                                    Text("(${it.PERIO}교시) ")
+                                    Text(it.ITRT_CNTNT)
+                                }
+                            }
                         )
                         Divider()
                     }
@@ -194,7 +209,12 @@ fun TimetableScreen(
                 ) {
                     items(timetablesSpecial) {
                         ListItem(
-                            headlineText = { Text(it.ITRT_CNTNT) }
+                            headlineText = {
+                                Row {
+                                    Text("(${it.PERIO}교시) ")
+                                    Text(it.ITRT_CNTNT)
+                                }
+                            }
                         )
                         Divider()
                     }
@@ -209,7 +229,12 @@ fun TimetableScreen(
                 ) {
                     items(timetablesSpecial) {
                         ListItem(
-                            headlineText = { Text(it.ITRT_CNTNT) }
+                            headlineText = {
+                                Row {
+                                    Text("(${it.PERIO}교시) ")
+                                    Text(it.ITRT_CNTNT)
+                                }
+                            }
                         )
                         Divider()
                     }

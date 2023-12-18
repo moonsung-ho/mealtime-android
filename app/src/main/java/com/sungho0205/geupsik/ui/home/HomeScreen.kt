@@ -8,7 +8,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -27,7 +26,6 @@ import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.model.EAlergy
 import com.sungho0205.geupsik.ui.NavigationActions
-import com.sungho0205.geupsik.ui.theme.Yellow50
 import com.sungho0205.geupsik.ui.theme.Yellow500
 import com.sungho0205.geupsik.ui.theme.Yellow700
 import java.time.LocalDate
@@ -135,110 +133,101 @@ fun HomeScreen(
                     contentPadding = innerPadding,
                 ) {
                     items(meals) {
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(12.dp),
-                            elevation = CardDefaults.cardElevation(2.dp),
-                            shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(Yellow50)
+                        Column(
+                            modifier = Modifier.padding(16.dp)
                         ) {
-                            Column(
-                                modifier = Modifier.padding(12.dp)
-                            ) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text(
-                                        text = it.MMEAL_SC_NM,
-                                        fontSize = 20.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Yellow700
-                                    )
-                                    Text("(${it.CAL_INFO})", color = Yellow700)
-                                }
-                                Spacer(modifier = Modifier.height(10.dp))
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    text = it.MMEAL_SC_NM,
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text(it.CAL_INFO, color = Yellow700)
+                            }
+                            Spacer(modifier = Modifier.height(10.dp))
 
-                                val menus = it.DDISH_NM.split("<br/>")
+                            val menus = it.DDISH_NM.split("<br/>")
 
-                                menus.map {
-                                    val regex =
-                                        Regex("[,.\\s]+") // Comma, period, or whitespace as delimiters.
-                                    val parts = it.split(regex).filter { it.isNotEmpty() }
-                                    val menu = parts[0]
-                                    val alergiesOfMenu = parts.drop(1).map {
-                                        EAlergy.values().find { eAlergy ->
-                                            eAlergy.id == it.replace("(", "").replace(")", "")
-                                        }
+                            menus.map {
+                                val regex =
+                                    Regex("[,.\\s]+") // Comma, period, or whitespace as delimiters.
+                                val parts = it.split(regex).filter { it.isNotEmpty() }
+                                val menu = parts[0]
+                                val alergiesOfMenu = parts.drop(1).map {
+                                    EAlergy.values().find { eAlergy ->
+                                        eAlergy.id == it.replace("(", "").replace(")", "")
                                     }
+                                }
 
-                                    val hasAlergy = alergiesOfMenu.isNotEmpty()
+                                val hasAlergy = alergiesOfMenu.isNotEmpty()
 
-                                    val hasMyAlergy =
-                                        alergiesOfMenu.map { alergyOfMenu -> alergyOfMenu?.id }
-                                            .intersect(
-                                                data.alergiesList.toSet()
-                                                    .map { alergy -> alergy.id }.toSet()
-                                            ).isNotEmpty()
+                                val hasMyAlergy =
+                                    alergiesOfMenu.map { alergyOfMenu -> alergyOfMenu?.id }
+                                        .intersect(
+                                            data.alergiesList.toSet()
+                                                .map { alergy -> alergy.id }.toSet()
+                                        ).isNotEmpty()
 
-                                    val showAlergies = remember { mutableStateOf(false) }
+                                val showAlergies = remember { mutableStateOf(false) }
 
-                                    Row(
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(48.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Text(
+                                        menu, color = if (hasMyAlergy) {
+                                            Color.Red
+                                        } else {
+                                            Color.Black
+                                        }
+                                    )
+                                    if (hasAlergy) {
+                                        AssistChip(onClick = {
+                                            showAlergies.value = !showAlergies.value
+                                        }, label = { Text("알레르기") }, leadingIcon = {
+                                            Icon(
+                                                Icons.Default.Warning, "알레르기 경고"
+                                            )
+                                        })
+                                    }
+                                }
+                                if (hasAlergy && showAlergies.value) {
+                                    FlowRow(
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .height(48.dp),
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.SpaceBetween
+                                            .padding(vertical = 12.dp)
+                                            .padding(start = 12.dp)
                                     ) {
-                                        Text(
-                                            menu, color = if (hasMyAlergy) {
-                                                Color.Red
-                                            } else {
-                                                Color.Black
-                                            }
-                                        )
-                                        if (hasAlergy) {
-                                            AssistChip(onClick = {
-                                                showAlergies.value = !showAlergies.value
-                                            }, label = { Text("알레르기") }, leadingIcon = {
-                                                Icon(
-                                                    Icons.Default.Warning, "알레르기 경고"
-                                                )
-                                            })
-                                        }
-                                    }
-                                    if (hasAlergy && showAlergies.value) {
-                                        FlowRow(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(vertical = 12.dp)
-                                                .padding(start = 12.dp)
-                                        ) {
-                                            alergiesOfMenu.map { alergyOfMenu ->
-                                                if (data.alergiesList.toSet().any { myAlergy ->
-                                                        myAlergy.id == alergyOfMenu?.id
-                                                    }) {
-                                                    alergyOfMenu?.label?.let { it ->
-                                                        Text(
-                                                            it,
-                                                            color = Color.Red,
-                                                            modifier = Modifier
-                                                                .padding(end = 8.dp)
-                                                                .wrapContentWidth(),
-                                                            fontWeight = FontWeight.SemiBold
-                                                        )
-                                                    }
-                                                } else {
-                                                    alergyOfMenu?.label?.let { it ->
-                                                        Text(
-                                                            it,
-                                                            color = Color.Gray,
-                                                            modifier = Modifier
-                                                                .padding(end = 8.dp)
-                                                                .wrapContentWidth()
-                                                        )
-                                                    }
+                                        alergiesOfMenu.map { alergyOfMenu ->
+                                            if (data.alergiesList.toSet().any { myAlergy ->
+                                                    myAlergy.id == alergyOfMenu?.id
+                                                }) {
+                                                alergyOfMenu?.label?.let { it ->
+                                                    Text(
+                                                        it,
+                                                        color = Color.Red,
+                                                        modifier = Modifier
+                                                            .padding(end = 8.dp)
+                                                            .wrapContentWidth(),
+                                                        fontWeight = FontWeight.SemiBold
+                                                    )
                                                 }
-
+                                            } else {
+                                                alergyOfMenu?.label?.let { it ->
+                                                    Text(
+                                                        it,
+                                                        color = Color.Gray,
+                                                        modifier = Modifier
+                                                            .padding(end = 8.dp)
+                                                            .wrapContentWidth()
+                                                    )
+                                                }
                                             }
+
                                         }
                                     }
                                 }
