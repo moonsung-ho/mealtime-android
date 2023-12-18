@@ -47,7 +47,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -63,7 +62,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.model.Regions
 import com.sungho0205.geupsik.model.School
@@ -76,12 +74,10 @@ import com.sungho0205.geupsik.ui.theme.Yellow500
 fun SettingSchoolScreen(
     navigationActions: NavigationActions, settingsViewModel: SettingsViewModel
 ) {
-    var context = LocalContext.current
-    var openDialog = remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val openDialog = remember { mutableStateOf(false) }
     var query by remember { mutableStateOf("") }
     val schools = remember { mutableStateListOf<School>() }
-    val data: Settings =
-        settingsViewModel.settingFlow.collectAsState(initial = Settings.getDefaultInstance()).value
     val (region, setRegion) = remember { mutableStateOf(Regions.All) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -227,7 +223,10 @@ fun SettingSchoolScreen(
                                 schulNm = it.SCHUL_NM,
                             )
                             navigationActions.navigateToSettingGradeClass()
-                        }, headlineText = { Text(it.SCHUL_NM) }, trailingContent = {
+                        }, headlineText = { Column {
+                            Text(it.SCHUL_NM)
+                            Text(it.ORG_RDNMA, fontSize = 14.sp, maxLines = 1, color = Color.Gray )
+                        } }, trailingContent = {
                             Icon(
                                 Icons.Filled.KeyboardArrowRight,
                                 contentDescription = "학년/반 설정",
@@ -264,7 +263,7 @@ fun RegionSelector(
     selectedRegion: Regions, setRegion: (Regions) -> Unit, hideRegionSelector: () -> Unit
 ) {
     val regions = enumValues<Regions>()
-    var scrollState = rememberScrollState()
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier.verticalScroll(scrollState)
