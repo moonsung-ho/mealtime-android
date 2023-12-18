@@ -11,11 +11,17 @@ import androidx.lifecycle.viewModelScope
 import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.model.ElsTimetable
 import com.sungho0205.geupsik.model.GradeClass
+import com.sungho0205.geupsik.model.HisTimetable
 import com.sungho0205.geupsik.model.MealServiceDiet
+import com.sungho0205.geupsik.model.MisTimetable
 import com.sungho0205.geupsik.model.Notice
+import com.sungho0205.geupsik.model.SpsTimetable
+import com.sungho0205.geupsik.service.queryElimentaryTimetable
+import com.sungho0205.geupsik.service.queryHighTimetable
 import com.sungho0205.geupsik.service.queryMeal
+import com.sungho0205.geupsik.service.queryMiddleTimetable
 import com.sungho0205.geupsik.service.queryNotices
-import com.sungho0205.geupsik.service.queryTimetable
+import com.sungho0205.geupsik.service.querySpecialTimetable
 import com.sungho0205.geupsik.service.searchGradeClasses
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -26,7 +32,10 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
     val settingFlow: Flow<Settings> = settingsRepository.settingsFlow
     val gradeClasses: SnapshotStateList<GradeClass> = mutableStateListOf()
     val meals: SnapshotStateList<MealServiceDiet> = mutableStateListOf()
-    val timetables: SnapshotStateList<ElsTimetable> = mutableStateListOf()
+    val timetablesHigh: SnapshotStateList<HisTimetable> = mutableStateListOf()
+    val timetablesMiddle: SnapshotStateList<MisTimetable> = mutableStateListOf()
+    val timetablesElementary: SnapshotStateList<ElsTimetable> = mutableStateListOf()
+    val timetablesSpecial: SnapshotStateList<SpsTimetable> = mutableStateListOf()
     val notices: SnapshotStateList<Notice> = mutableStateListOf()
     @RequiresApi(Build.VERSION_CODES.O)
     val selectedDate: MutableState<LocalDate> = mutableStateOf(LocalDate.now())
@@ -62,13 +71,40 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
     fun getTimetables(date: String, progress: MutableState<Float>) {
         viewModelScope.launch {
             settingFlow.collect {
-                queryTimetable(
+                queryHighTimetable(
                     atptOfcdcScCode = it.atptOfcdcScCode,
                     sdSchulCode = it.sdSchulCode,
                     allTiYmd = date,
                     grade_ = it.grade,
                     class_ = it.class_,
-                    result = timetables,
+                    result = timetablesHigh,
+                    progress = progress
+                )
+                queryMiddleTimetable(
+                    atptOfcdcScCode = it.atptOfcdcScCode,
+                    sdSchulCode = it.sdSchulCode,
+                    allTiYmd = date,
+                    grade_ = it.grade,
+                    class_ = it.class_,
+                    result = timetablesMiddle,
+                    progress = progress
+                )
+                queryElimentaryTimetable(
+                    atptOfcdcScCode = it.atptOfcdcScCode,
+                    sdSchulCode = it.sdSchulCode,
+                    allTiYmd = date,
+                    grade_ = it.grade,
+                    class_ = it.class_,
+                    result = timetablesElementary,
+                    progress = progress
+                )
+                querySpecialTimetable(
+                    atptOfcdcScCode = it.atptOfcdcScCode,
+                    sdSchulCode = it.sdSchulCode,
+                    allTiYmd = date,
+                    grade_ = it.grade,
+                    class_ = it.class_,
+                    result = timetablesSpecial,
                     progress = progress
                 )
             }

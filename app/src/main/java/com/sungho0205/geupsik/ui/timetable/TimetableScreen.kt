@@ -34,7 +34,16 @@ fun TimetableScreen(
 ) {
     val data: Settings =
         settingsViewModel.settingFlow.collectAsState(initial = Settings.getDefaultInstance()).value
-    val timetables = settingsViewModel.timetables.filter {
+    val timetablesHigh = settingsViewModel.timetablesHigh.filter {
+        it.ITRT_CNTNT != null
+    }
+    val timetablesMiddle = settingsViewModel.timetablesMiddle.filter {
+        it.ITRT_CNTNT != null
+    }
+    val timetablesElementary = settingsViewModel.timetablesElementary.filter {
+        it.ITRT_CNTNT != null
+    }
+    val timetablesSpecial = settingsViewModel.timetablesSpecial.filter {
         it.ITRT_CNTNT != null
     }
     val calendar = settingsViewModel.calendar
@@ -128,9 +137,9 @@ fun TimetableScreen(
                         Text("설정하러 가기")
                     }
                 }
-            } else if (timetables.isEmpty()) {
+            } else if (timetablesHigh.isEmpty() && timetablesMiddle.isEmpty() && timetablesElementary.isEmpty() && timetablesSpecial.isEmpty()) {
                 Text("시간표가 등록되지 않았어요.")
-            } else {
+            } else if (timetablesHigh.isNotEmpty()) {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
@@ -138,13 +147,75 @@ fun TimetableScreen(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     contentPadding = PaddingValues(horizontal = 4.dp, vertical = 10.dp),
                 ) {
-                    items(timetables) {
+                    items(timetablesHigh) {
                         ListItem(
                             headlineText = { Text(it.ITRT_CNTNT) }
                         )
                         Divider()
                     }
                 }
+            } else if (timetablesMiddle.isNotEmpty()) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 10.dp),
+                ) {
+                    items(timetablesMiddle) {
+                        ListItem(
+                            headlineText = { Text(it.ITRT_CNTNT) }
+                        )
+                        Divider()
+                    }
+                }
+            } else if (timetablesElementary.isNotEmpty()) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 10.dp),
+                ) {
+                    items(timetablesElementary) {
+                        ListItem(
+                            headlineText = { Text(it.ITRT_CNTNT) }
+                        )
+                        Divider()
+                    }
+                }
+            } else if (timetablesSpecial.isNotEmpty()) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 10.dp),
+                ) {
+                    items(timetablesSpecial) {
+                        ListItem(
+                            headlineText = { Text(it.ITRT_CNTNT) }
+                        )
+                        Divider()
+                    }
+                }
+            } else if (timetablesSpecial.isNotEmpty()) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 10.dp),
+                ) {
+                    items(timetablesSpecial) {
+                        ListItem(
+                            headlineText = { Text(it.ITRT_CNTNT) }
+                        )
+                        Divider()
+                    }
+                }
+            } else {
+                Text("시간표가 등록되지 않았어요.")
             }
         }
     }
