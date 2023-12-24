@@ -1,6 +1,5 @@
 package com.sungho0205.geupsik.ui
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +14,7 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 
 @Composable
-fun GAds(context: Context) {
+fun GAds() {
     Column(
         modifier = Modifier
             .fillMaxWidth()

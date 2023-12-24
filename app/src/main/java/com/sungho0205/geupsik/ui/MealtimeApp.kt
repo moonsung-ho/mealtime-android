@@ -38,7 +38,6 @@ import com.sungho0205.geupsik.utils.compareDateAndTimestamp
 @Composable
 fun MealtimeApp(firebaseAnalytics: FirebaseAnalytics, settingsViewModel: SettingsViewModel) {
     MealtimeTheme {
-        val context = LocalContext.current
         val navController = rememberNavController()
         val navigationActions = remember(navController) {
             NavigationActions(navController)
@@ -58,7 +57,7 @@ fun MealtimeApp(firebaseAnalytics: FirebaseAnalytics, settingsViewModel: Setting
                     destination.route?.replace("{noticeId}", noticeId.toString())
                 } ?: destination.route
                 params.putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
-                params.putString(FirebaseAnalytics.Param.SCREEN_CLASS, destination.route as String?)
+                params.putString(FirebaseAnalytics.Param.SCREEN_CLASS, destination.route)
                 firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, params)
             }
         }
@@ -84,7 +83,7 @@ fun MealtimeApp(firebaseAnalytics: FirebaseAnalytics, settingsViewModel: Setting
         Scaffold(bottomBar = {
             if (currentRoute == Destinations.HOME_TAB || currentRoute == Destinations.TIMETABLE_TAB || currentRoute == Destinations.SETTING_TAB || currentRoute == Destinations.SETTING_MAIN) {
                 Column() {
-                    GAds(context = context)
+                    GAds()
                     BottomNavigation(
                         currentRoute = currentRoute,
                         navigateToHome = navigationActions.navigateToHome,
