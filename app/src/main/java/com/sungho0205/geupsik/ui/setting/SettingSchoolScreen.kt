@@ -46,6 +46,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -60,6 +61,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sungho0205.geupsik.data.SettingsViewModel
@@ -67,7 +69,6 @@ import com.sungho0205.geupsik.model.Regions
 import com.sungho0205.geupsik.model.School
 import com.sungho0205.geupsik.service.searchSchools
 import com.sungho0205.geupsik.ui.NavigationActions
-import com.sungho0205.geupsik.ui.theme.Yellow500
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -139,6 +140,11 @@ fun SettingSchoolScreen(
                     Text(region.label)
                 }
                 BasicTextField(value = query,
+                    textStyle = TextStyle(
+                        color = MaterialTheme.colorScheme.contentColorFor(
+                            MaterialTheme.colorScheme.background
+                        )
+                    ),
                     onValueChange = {
                         query = it
                     },
@@ -157,7 +163,7 @@ fun SettingSchoolScreen(
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp)
-                        .border(1.dp, Yellow500),
+                        .border(1.dp, MaterialTheme.colorScheme.outline),
                     decorationBox = { innerTextField ->
                         Row(
                             modifier = Modifier

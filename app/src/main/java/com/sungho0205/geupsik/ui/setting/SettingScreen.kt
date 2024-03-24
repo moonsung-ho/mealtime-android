@@ -11,16 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.model.EAlergy
 import com.sungho0205.geupsik.ui.NavigationActions
-import com.sungho0205.geupsik.ui.theme.Yellow500
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,14 +40,7 @@ fun SettingScreen(
             Card(
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.padding(horizontal = 16.dp),
-                border = BorderStroke(width = 1.dp, color = Yellow500),
-                colors = CardDefaults.elevatedCardColors(
-                    containerColor = Color(
-                        red = 255,
-                        green = 251,
-                        blue = 254
-                    )
-                ),
+                border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant),
             ) {
                 Column(
                     modifier = Modifier

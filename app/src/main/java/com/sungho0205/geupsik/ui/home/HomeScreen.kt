@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -26,8 +25,6 @@ import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.model.EAlergy
 import com.sungho0205.geupsik.ui.NavigationActions
-import com.sungho0205.geupsik.ui.theme.Yellow500
-import com.sungho0205.geupsik.ui.theme.Yellow700
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -89,7 +86,7 @@ fun HomeScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(modifier = Modifier.padding(vertical = 8.dp)) {
-                Button(onClick = {
+                OutlinedButton(onClick = {
                     calendar.add(Calendar.DAY_OF_MONTH, -1)
                     dateState.value = dateState.value.minusDays(1)
                 }) {
@@ -98,14 +95,13 @@ fun HomeScreen(
                 OutlinedButton(
                     onClick = { datePicker.show() },
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    border = BorderStroke(width = 1.dp, color = Yellow500)
                 ) {
-                    val formatter = DateTimeFormatter.ofPattern("yyyy. M. d.")
+                    val formatter = DateTimeFormatter.ofPattern("yyyy. M. d. EE")
                     val selectedDate = dateState.value.format(formatter)
 
                     Text(selectedDate, fontWeight = FontWeight.Bold)
                 }
-                Button(onClick = {
+                OutlinedButton(onClick = {
                     calendar.add(Calendar.DAY_OF_MONTH, 1)
                     dateState.value = dateState.value.plusDays(1)
                 }) {
@@ -143,7 +139,7 @@ fun HomeScreen(
                                     fontWeight = FontWeight.Bold
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
-                                Text(it.CAL_INFO, color = Yellow700)
+                                Text(it.CAL_INFO)
                             }
                             Spacer(modifier = Modifier.height(10.dp))
 
@@ -180,9 +176,9 @@ fun HomeScreen(
                                 ) {
                                     Text(
                                         menu, color = if (hasMyAlergy) {
-                                            Color.Red
+                                            MaterialTheme.colorScheme.error
                                         } else {
-                                            Color.Black
+                                            MaterialTheme.colorScheme.contentColorFor(MaterialTheme.colorScheme.background)
                                         }
                                     )
                                     if (hasAlergy) {
@@ -209,7 +205,7 @@ fun HomeScreen(
                                                 alergyOfMenu?.label?.let { it ->
                                                     Text(
                                                         it,
-                                                        color = Color.Red,
+                                                        color = MaterialTheme.colorScheme.error,
                                                         modifier = Modifier
                                                             .padding(end = 8.dp)
                                                             .wrapContentWidth(),

@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.sungho0205.geupsik.Settings
 import com.sungho0205.geupsik.data.SettingsViewModel
 import com.sungho0205.geupsik.ui.NavigationActions
-import com.sungho0205.geupsik.ui.theme.Yellow500
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -94,7 +93,7 @@ fun TimetableScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(modifier = Modifier.padding(vertical = 8.dp)) {
-                Button(onClick = {
+                OutlinedButton(onClick = {
                     calendar.add(Calendar.DAY_OF_MONTH, -1)
                     dateState.value = dateState.value.minusDays(1)
                 }) {
@@ -103,14 +102,14 @@ fun TimetableScreen(
                 OutlinedButton(
                     onClick = { datePicker.show() },
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    border = BorderStroke(width = 1.dp, color = Yellow500)
+                    border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant)
                 ) {
-                    val formatter = DateTimeFormatter.ofPattern("yyyy. M. d.")
+                    val formatter = DateTimeFormatter.ofPattern("yyyy. M. d. EE")
                     val selectedDate = dateState.value.format(formatter)
 
                     Text(selectedDate, fontWeight = FontWeight.Bold)
                 }
-                Button(onClick = {
+                OutlinedButton(onClick = {
                     calendar.add(Calendar.DAY_OF_MONTH, 1)
                     dateState.value = dateState.value.plusDays(1)
                 }) {
