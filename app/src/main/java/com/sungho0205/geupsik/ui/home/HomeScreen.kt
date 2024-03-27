@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -95,6 +96,7 @@ fun HomeScreen(
                 OutlinedButton(
                     onClick = { datePicker.show() },
                     modifier = Modifier.padding(horizontal = 8.dp),
+                    border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant)
                 ) {
                     val formatter = DateTimeFormatter.ofPattern("yyyy. M. d. EE")
                     val selectedDate = dateState.value.format(formatter)
@@ -113,14 +115,14 @@ fun HomeScreen(
                     modifier = Modifier.padding(innerPadding),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("학교를 등록하면 급식을 볼 수 있어요.")
+                    Text("학교를 등록하면 급식을 볼 수 있어요.", style = MaterialTheme.typography.headlineSmall)
                     TextButton(onClick = { navigationActions.navigateToSetting() }) {
-                        Text("학교 설정하러 가기")
+                        Text("학교 설정하러 가기", style = MaterialTheme.typography.bodyMedium)
                     }
                 }
             } else if (meals.size == 0) {
                 Column(modifier = Modifier.padding(innerPadding)) {
-                    Text("급식이 등록되지 않았어요.")
+                    Text("급식이 등록되지 않았어요.", style = MaterialTheme.typography.headlineSmall)
                 }
             } else {
                 LazyColumn(
@@ -132,14 +134,17 @@ fun HomeScreen(
                         Column(
                             modifier = Modifier.padding(16.dp)
                         ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
+                            Row(verticalAlignment = Alignment.Bottom) {
                                 Text(
                                     text = it.MMEAL_SC_NM,
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
+                                    style = MaterialTheme.typography.headlineSmall
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
-                                Text(it.CAL_INFO)
+                                Text(
+                                    it.CAL_INFO,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.outline
+                                )
                             }
                             Spacer(modifier = Modifier.height(10.dp))
 
@@ -175,20 +180,38 @@ fun HomeScreen(
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
                                     Text(
-                                        menu, color = if (hasMyAlergy) {
+                                        menu,
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        color = if (hasMyAlergy) {
                                             MaterialTheme.colorScheme.error
                                         } else {
                                             MaterialTheme.colorScheme.contentColorFor(MaterialTheme.colorScheme.background)
                                         }
                                     )
                                     if (hasAlergy) {
-                                        AssistChip(onClick = {
-                                            showAlergies.value = !showAlergies.value
-                                        }, label = { Text("알레르기") }, leadingIcon = {
-                                            Icon(
-                                                Icons.Default.Warning, "알레르기 경고"
-                                            )
-                                        })
+                                        AssistChip(
+                                            colors = AssistChipDefaults.assistChipColors(
+                                                containerColor = MaterialTheme.colorScheme.errorContainer,
+                                            ),
+                                            border = AssistChipDefaults.assistChipBorder(
+                                                borderColor = MaterialTheme.colorScheme.errorContainer
+                                            ),
+                                            onClick = {
+                                                showAlergies.value = !showAlergies.value
+                                            },
+                                            label = {
+                                                Text(
+                                                    "알레르기",
+                                                    style = MaterialTheme.typography.labelMedium
+                                                )
+                                            },
+                                            leadingIcon = {
+                                                Icon(
+                                                    Icons.Default.Warning, "알레르기 경고",
+                                                    modifier = Modifier.size(18.dp),
+                                                    tint = MaterialTheme.colorScheme.error
+                                                )
+                                            })
                                     }
                                 }
                                 if (hasAlergy && showAlergies.value) {

@@ -102,7 +102,10 @@ fun TimetableScreen(
                 OutlinedButton(
                     onClick = { datePicker.show() },
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant)
+                    border = BorderStroke(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.outlineVariant
+                    )
                 ) {
                     val formatter = DateTimeFormatter.ofPattern("yyyy. M. d. EE")
                     val selectedDate = dateState.value.format(formatter)
@@ -121,9 +124,9 @@ fun TimetableScreen(
                     modifier = Modifier.padding(innerPadding),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("학교를 등록하면 시간표를 볼 수 있어요.")
+                    Text("학교를 등록하면 시간표를 볼 수 있어요.", style = MaterialTheme.typography.headlineSmall)
                     TextButton(onClick = { navigationActions.navigateToSetting() }) {
-                        Text("설정하러 가기")
+                        Text("설정하러 가기", style = MaterialTheme.typography.bodyMedium)
                     }
                 }
             } else if (data.class_.isNullOrBlank()) {
@@ -131,13 +134,13 @@ fun TimetableScreen(
                     modifier = Modifier.padding(innerPadding),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("학년/반을 등록하면 시간표를 볼 수 있어요.")
+                    Text("학년/반을 등록하면 시간표를 볼 수 있어요.", style = MaterialTheme.typography.headlineSmall)
                     TextButton(onClick = { navigationActions.navigateToSetting() }) {
-                        Text("설정하러 가기")
+                        Text("설정하러 가기", style = MaterialTheme.typography.bodyMedium)
                     }
                 }
             } else if (timetablesHigh.isEmpty() && timetablesMiddle.isEmpty() && timetablesElementary.isEmpty() && timetablesSpecial.isEmpty()) {
-                Text("시간표가 등록되지 않았어요.")
+                Text("시간표가 등록되지 않았어요.", style = MaterialTheme.typography.headlineSmall)
             } else if (timetablesHigh.isNotEmpty()) {
                 LazyColumn(
                     modifier = Modifier
@@ -150,8 +153,16 @@ fun TimetableScreen(
                         ListItem(
                             headlineText = {
                                 Row {
-                                    Text("(${it.PERIO}교시) ")
-                                    Text(it.ITRT_CNTNT)
+                                    Text(
+                                        "(${it.PERIO}교시) ",
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        style = MaterialTheme.typography.labelMedium
+                                    )
+                                    Text(
+                                        it.ITRT_CNTNT,
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        style = MaterialTheme.typography.bodyLarge
+                                    )
                                 }
                             }
                         )
@@ -170,8 +181,16 @@ fun TimetableScreen(
                         ListItem(
                             headlineText = {
                                 Row {
-                                    Text("(${it.PERIO}교시) ")
-                                    Text(it.ITRT_CNTNT)
+                                    Text(
+                                        "(${it.PERIO}교시) ",
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        style = MaterialTheme.typography.labelMedium
+                                    )
+                                    Text(
+                                        it.ITRT_CNTNT,
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        style = MaterialTheme.typography.bodyLarge
+                                    )
                                 }
                             }
                         )
@@ -189,9 +208,19 @@ fun TimetableScreen(
                     items(timetablesElementary) {
                         ListItem(
                             headlineText = {
-                                Row {
-                                    Text("(${it.PERIO}교시) ")
-                                    Text(it.ITRT_CNTNT)
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        "(${it.PERIO}교시) ",
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        style = MaterialTheme.typography.labelMedium
+                                    )
+                                    Text(
+                                        it.ITRT_CNTNT,
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        style = MaterialTheme.typography.bodyLarge
+                                    )
                                 }
                             }
                         )
@@ -210,8 +239,16 @@ fun TimetableScreen(
                         ListItem(
                             headlineText = {
                                 Row {
-                                    Text("(${it.PERIO}교시) ")
-                                    Text(it.ITRT_CNTNT)
+                                    Text(
+                                        "(${it.PERIO}교시) ",
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        style = MaterialTheme.typography.labelMedium
+                                    )
+                                    Text(
+                                        it.ITRT_CNTNT,
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        style = MaterialTheme.typography.bodyLarge
+                                    )
                                 }
                             }
                         )
@@ -230,8 +267,16 @@ fun TimetableScreen(
                         ListItem(
                             headlineText = {
                                 Row {
-                                    Text("(${it.PERIO}교시) ")
-                                    Text(it.ITRT_CNTNT)
+                                    Text(
+                                        "(${it.PERIO}교시) ",
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        style = MaterialTheme.typography.labelMedium
+                                    )
+                                    Text(
+                                        it.ITRT_CNTNT,
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        style = MaterialTheme.typography.bodyLarge
+                                    )
                                 }
                             }
                         )
@@ -239,7 +284,7 @@ fun TimetableScreen(
                     }
                 }
             } else {
-                Text("시간표가 등록되지 않았어요.")
+                Text("시간표가 등록되지 않았어요.", style = MaterialTheme.typography.headlineSmall)
             }
         }
     }
