@@ -65,7 +65,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation "androidx.datastore:datastore:1.0.0"
     implementation "com.google.protobuf:protobuf-javalite:3.18.0"
-    implementation "com.google.android.gms:play-services-ads:22.2.0"
+    implementation "com.google.android.gms:play-services-ads:23.0.0"
+    constraints.implementation "androidx.fragment:fragment:1.6.0"
     // Import the BoM for the Firebase platform
     implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
 
