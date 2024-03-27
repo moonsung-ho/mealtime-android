@@ -69,6 +69,7 @@ import com.sungho0205.geupsik.model.Regions
 import com.sungho0205.geupsik.model.School
 import com.sungho0205.geupsik.service.searchSchools
 import com.sungho0205.geupsik.ui.NavigationActions
+import kotlin.math.min
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -91,7 +92,7 @@ fun SettingSchoolScreen(
     }
 
     val animatedProgress by animateFloatAsState(
-        targetValue = settingsViewModel.fetchProgress.value,
+        targetValue = settingsViewModel.fetchProgressSearchSchool.value,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
         label = "fetching_progress_setting_school"
     )
@@ -103,7 +104,7 @@ fun SettingSchoolScreen(
             }
         })
     }) { innerPadding ->
-        if (settingsViewModel.fetchProgress.value > 0.0f) {
+        if (settingsViewModel.fetchProgressSearchSchool.value > 0.0f) {
             LinearProgressIndicator(
                 modifier = Modifier
                     .semantics(mergeDescendants = true) {}
@@ -155,7 +156,7 @@ fun SettingSchoolScreen(
                             query = query.trim(),
                             region = region.value,
                             result = schools,
-                            progress = settingsViewModel.fetchProgress
+                            progress = settingsViewModel.fetchProgressSearchSchool
 
                         )
                     }),
@@ -194,7 +195,7 @@ fun SettingSchoolScreen(
                                 query = query.trim(),
                                 region = region.value,
                                 result = schools,
-                                progress = settingsViewModel.fetchProgress
+                                progress = settingsViewModel.fetchProgressSearchSchool
 
                             )
                         } else {

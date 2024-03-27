@@ -48,7 +48,7 @@ fun HomeScreen(
         val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
         settingsViewModel.getMeals(
             date = dateState.value.format(formatter),
-            progress = settingsViewModel.fetchProgress
+            progress = settingsViewModel.fetchProgressMeal
         )
     })
 
@@ -64,13 +64,13 @@ fun HomeScreen(
     )
 
     val animatedProgress by animateFloatAsState(
-        targetValue = settingsViewModel.fetchProgress.value,
+        targetValue = settingsViewModel.fetchProgressMeal.value,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
         label = "fetching_progress_home"
     )
 
     Scaffold() { innerPadding ->
-        if (settingsViewModel.fetchProgress.value > 0.0f) {
+        if (settingsViewModel.fetchProgressMeal.value > 0.0f) {
             LinearProgressIndicator(
                 modifier = Modifier
                     .semantics(mergeDescendants = true) {}

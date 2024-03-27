@@ -39,7 +39,9 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
     val notices: SnapshotStateList<Notice> = mutableStateListOf()
     @RequiresApi(Build.VERSION_CODES.O)
     val selectedDate: MutableState<LocalDate> = mutableStateOf(LocalDate.now())
-    val fetchProgress: MutableState<Float> = mutableStateOf(0.0f)
+    val fetchProgressMeal: MutableState<Float> = mutableStateOf(0.0f)
+    val fetchProgressTimetable: MutableState<Float> = mutableStateOf(0.0f)
+    val fetchProgressSearchSchool: MutableState<Float> = mutableStateOf(0.0f)
     val calendar: Calendar = Calendar.getInstance()
 
     fun getGradeClasses() {

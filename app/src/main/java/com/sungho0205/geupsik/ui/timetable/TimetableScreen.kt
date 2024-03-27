@@ -54,7 +54,7 @@ fun TimetableScreen(
         val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
         settingsViewModel.getTimetables(
             date = dateState.value.format(formatter),
-            progress = settingsViewModel.fetchProgress
+            progress = settingsViewModel.fetchProgressTimetable
         )
     })
 
@@ -70,13 +70,13 @@ fun TimetableScreen(
     )
 
     val animatedProgress by animateFloatAsState(
-        targetValue = settingsViewModel.fetchProgress.value,
+        targetValue = settingsViewModel.fetchProgressTimetable.value,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
         label = "fetching_progress_timetable"
     )
 
     Scaffold() { innerPadding ->
-        if (settingsViewModel.fetchProgress.value > 0.0f) {
+        if (settingsViewModel.fetchProgressTimetable.value > 0.0f) {
             LinearProgressIndicator(
                 modifier = Modifier
                     .semantics(mergeDescendants = true) {}
