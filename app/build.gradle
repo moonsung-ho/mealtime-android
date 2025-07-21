@@ -7,14 +7,14 @@ plugins {
 
 android {
     namespace 'com.sungho0205.geupsik'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.sungho0205.geupsik"
         minSdk 28
-        targetSdk 34
-        versionCode 135
-        versionName "5.5.7"
+        targetSdk 35
+        versionCode 136
+        versionName '5.5.8'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
